@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:KorupMenuPOS.ViewModel"
+             x:Class="KorupMenuPOS.View.MenuPage">
+    <ContentPage.BindingContext>
+        <viewmodel:MenuPageViewModel>
+        </viewmodel:MenuPageViewModel>
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <StackLayout>
+            <Button Command="{Binding GoToChallengePageCommand}" Text="Gå til Timeren"></Button>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

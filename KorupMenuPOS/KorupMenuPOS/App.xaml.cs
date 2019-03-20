@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KorupMenuPOS.View;
+using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -11,7 +12,7 @@ namespace KorupMenuPOS
         {
             InitializeComponent();
 
-            MainPage = new MainPage();
+            MainPage = new NavigationPage(new MenuPage());
         }
 
         protected override void OnStart()

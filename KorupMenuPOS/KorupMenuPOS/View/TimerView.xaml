@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:KorupMenuPOS.ViewModel"
+             x:Class="KorupMenuPOS.View.TimerView">
+    <ContentPage.BindingContext>
+        <viewmodel:TimerViewModel>
+            
+        </viewmodel:TimerViewModel>
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="{Binding CHTimer}"></Label>
+            <Grid>
+                <Button Text="Start" Grid.Column="0" Command="{Binding startTimerCommand}"></Button>
+                <Button Text="Stop" Grid.Column="1" Command="{Binding stopTimerCommand}"></Button>
+                <Button Text="Reset" Grid.Column="2" Command="{Binding ResetTimerCommand}"></Button>
+            </Grid>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
