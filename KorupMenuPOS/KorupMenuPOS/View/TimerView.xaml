@@ -9,8 +9,8 @@
         </viewmodel:TimerViewModel>
     </ContentPage.BindingContext>
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="{Binding CHTimer}"></Label>
+        <StackLayout HorizontalOptions="Center">
+            <Label HorizontalOptions="Center" Text="{Binding CHTimer}" FontSize="72"></Label>
             <Grid>
                 <Button Text="Start" Grid.Column="0" Command="{Binding startTimerCommand}"></Button>
                 <Button Text="Stop" Grid.Column="1" Command="{Binding stopTimerCommand}"></Button>
