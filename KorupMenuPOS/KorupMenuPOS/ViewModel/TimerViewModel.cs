@@ -1,8 +1,12 @@
-﻿using System;
+﻿using KorupMenuPOS.Data;
+using KorupMenuPOS.View;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -13,42 +17,57 @@ namespace KorupMenuPOS.ViewModel
     {
         string chtimer = "00:00:00";
 
+        string entry = string.Empty;
+        string nameEntry = string.Empty;
+
         System.Timers.Timer timer;
         int hour, mintues, seconds;
 
+        bool timerIsOff = true;
+
+        bool nameIsTyped = true;
+
+        
+        
         public TimerViewModel()
         {
+            
+
+
             timer = new System.Timers.Timer();
 
             timer.Interval = 1000;
 
             timer.Elapsed += OntimeEvent;
 
+            
 
-            startTimerCommand = new Command(StartTimer);
-            stopTimerCommand = new Command(StopTimer);
+            StartTimerCommand = new Command(timer.Start);
+            StopTimerCommand = new Command(timer.Stop);
             ResetTimerCommand = new Command(ResetTimer);
+            SendTimeToLeaderBoardCommand = new Command(AddToLeaderBoard);
+            
 
         }
 
-        public ICommand startTimerCommand { get; }
-        public ICommand stopTimerCommand { get; }
-        public ICommand ResetTimerCommand { get; }
+        public ICommand StartTimerCommand { private set; get; }
+        public ICommand StopTimerCommand { private set; get; }
+        public ICommand ResetTimerCommand { private set; get; }
+        public ICommand SendTimeToLeaderBoardCommand { private set; get; }
+       
 
-        void StartTimer()
-        {
-            timer.Start();
-        }
-        void StopTimer()
-        {
-            timer.Stop();
-        }
+      
+      
+        
         void ResetTimer()
         {
             hour = 0;
             mintues = 0;
             seconds = 0;
             chtimer = "00:00:00";
+            nameEntry = "";
+            OnPropertyChanged(nameof(CHTimer));
+            OnPropertyChanged(nameof(NameEntry));
         }
         private void OntimeEvent(object sender, ElapsedEventArgs e)
         {
@@ -64,6 +83,27 @@ namespace KorupMenuPOS.ViewModel
                 hour++;
             }
             chtimer = string.Format($"{hour.ToString().PadLeft(2, '0')}:{mintues.ToString().PadLeft(2, '0')}:{seconds.ToString().PadLeft(2, '0')}");
+            OnPropertyChanged(nameof(CHTimer));
+        }
+
+        public bool TimerIsOff
+        {
+            get { return timerIsOff; }
+        }
+
+        public bool NameIsTyped
+        {
+            get { return nameIsTyped; }
+        }
+
+        public string NameEntry
+        {
+            get { return nameEntry; }
+            set {
+                nameEntry = value;
+               
+            }       
+                
         }
 
         //denne er den der bliver databindet til, derfor public
@@ -71,25 +111,32 @@ namespace KorupMenuPOS.ViewModel
         {
             //Denne gør at når der sker ændringer i chtimer værdien
             //Bliver det også vist i viewet
-            get => chtimer;
+            get { return chtimer; }
             set
             {
-               
-                if (chtimer == value)
-                    return;
                 chtimer = value;
-                OnPropertyChanged(nameof(CHTimer));
+                
             }
         }
 
+        async void AddToLeaderBoard()
+        {
+            string challengeTime = chtimer;
+            string challengerName = nameEntry;
 
+
+            await App.Database.AddTimeToLeaderBoard(challengeTime, challengerName);
+           
+        }
+
+       
 
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        void OnPropertyChanged(string chtimer)
+        void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(chtimer));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

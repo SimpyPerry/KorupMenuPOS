@@ -10,12 +10,18 @@
     </ContentPage.BindingContext>
     <ContentPage.Content>
         <StackLayout HorizontalOptions="Center">
-            <Label HorizontalOptions="Center" Text="{Binding CHTimer}" FontSize="72"></Label>
+            
+            <Label HorizontalOptions="Center" Text="{Binding CHTimer, Mode=OneWay}" FontSize="72"></Label>
+            <Entry Placeholder="Navn" HorizontalOptions="Fill" FontSize="50" Text="{Binding NameEntry}" ></Entry>
+            
             <Grid>
-                <Button Text="Start" Grid.Column="0" Command="{Binding startTimerCommand}"></Button>
-                <Button Text="Stop" Grid.Column="1" Command="{Binding stopTimerCommand}"></Button>
-                <Button Text="Reset" Grid.Column="2" Command="{Binding ResetTimerCommand}"></Button>
+                <Button Text="Start" Grid.Column="0" Command="{Binding Path=StartTimerCommand}" IsEnabled="{Binding NameIsTyped}"></Button>
+                <Button Text="Stop" Grid.Column="1" Command="{Binding StopTimerCommand}" IsEnabled="{Binding TimerIsOff}"></Button>
+                <Button Text="Reset" Grid.Column="2" Command="{Binding ResetTimerCommand}" IsEnabled="{Binding TimerIsOff}"></Button>
             </Grid>
+            <Button Text="Send Tid" Command="{Binding SendTimeToLeaderBoardCommand}"></Button>
+            <Button Text="Se Highscore listen" x:Name="GoToLeaderBoard_Button" Clicked="GoToLeaderBoard_Button_Clicked"></Button>
+            
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

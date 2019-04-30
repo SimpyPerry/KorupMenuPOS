@@ -11,20 +11,11 @@ namespace KorupMenuPOS.ViewModel
 {
     public class MenuPageViewModel : INotifyPropertyChanged
     {
-        public INavigation Navigation { get; set; }
-        public MenuPageViewModel()
-        {
-            
-            GoToChallengePageCommand = new Command(async () => await GoToChanllengePage());
-                
-        }
+        
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public ICommand GoToChallengePageCommand { get; }
+        
 
-        async Task GoToChanllengePage()
-        {
-            await Navigation.PushAsync(new TimerView());
-        }
+       
     }
 }

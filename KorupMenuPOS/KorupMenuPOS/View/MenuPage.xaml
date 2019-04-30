@@ -5,11 +5,59 @@
              x:Class="KorupMenuPOS.View.MenuPage">
     <ContentPage.BindingContext>
         <viewmodel:MenuPageViewModel>
+            
         </viewmodel:MenuPageViewModel>
     </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Name="MenuStyles" TargetType="Label">
+                <Setter Property="TextColor" Value="Black"> </Setter>
+                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+                <Setter Property="FontSize" Value="32"></Setter>
+            </Style>
+            <Style x:Name="GridStyle" TargetType="Grid">
+                <Setter Property="BackgroundColor" Value="Lavender"></Setter>
+            </Style>
+            <Style x:Name="ListViewStyle" TargetType="ListView">
+                
+            </Style>
+       </ResourceDictionary>
+    </ContentPage.Resources>
+
     <ContentPage.Content>
         <StackLayout>
-            <Button Command="{Binding GoToChallengePageCommand}" Text="Gå til Timeren"></Button>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*">
+                        
+                    </RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <StackLayout Grid.Row="0" Grid.Column="0">
+                    <Label Text="Kategorier"></Label>
+                    <ListView>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <TextCell>
+                                    
+                                </TextCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackLayout>
+                
+                <StackLayout Grid.Row="0" Grid.Column="1">
+                    <Label Text="Retter"></Label>
+                </StackLayout>
+                <StackLayout Grid.Row="0" Grid.Column="3">
+                    <Label Text="Kvitering"></Label>
+                </StackLayout>
+            </Grid>
+            <Button x:Name="GoToChallengePage_button" Clicked="GoToChallengePage_button_Clicked" Text="Gå til Timeren"></Button>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
