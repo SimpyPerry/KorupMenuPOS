@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Rg.Plugins.Popup.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,6 +21,11 @@ namespace KorupMenuPOS.View
         private void GoToChallengePage_button_Clicked(object sender, EventArgs e)
         {
             Navigation.PushAsync(new TimerView());
+        }
+
+        private void PlaceOrder_PopUp_Clicked(object sender, EventArgs e)
+        {
+            PopupNavigation.Instance.PushAsync(new PopupAuthenticate());
         }
     }
 }

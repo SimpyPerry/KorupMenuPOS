@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage
+    
+    xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="KorupMenuPOS.View.PopupAuthenticate"
+    xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+    xmlns:animations="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup"
+    xmlns:viewmodel="clr-namespace:KorupMenuPOS.ViewModel"
+    xmlns:local="clr-namespace:KorupMenuPOS">
+    <pages:PopupPage.BindingContext>
+        <viewmodel:PopupAuthenticateViewModel>
+
+        </viewmodel:PopupAuthenticateViewModel>
+    </pages:PopupPage.BindingContext>
+    
+
+    <StackLayout x:Name="LoginDisplay" VerticalOptions="Center" HorizontalOptions="Center" BackgroundColor="White">
+        <!--<Label x:Name="DisplayLabel" VerticalOptions="Center" Text="{Binding LoginCode}"></Label>-->
+        <Entry x:Name="PincodeEntry" Placeholder="Indtast kode" Keyboard="Numeric" ReturnCommand="{Binding AddNumberToLoginCommand}" ReturnCommandParameter="{Binding .}">
+            <Entry.Behaviors>
+                <local:CustomEntryBehavier>
+                    
+                </local:CustomEntryBehavier>
+            </Entry.Behaviors>
+        </Entry>
+        <Button x:Name="Goback_btn" Clicked="Goback_btn_Clicked"></Button>
+        
+        <!--<Grid HorizontalOptions="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Row="0" x:Name="Btn_1" Clicked="Btn_1_Clicked" Grid.Column="0" Text="1" Command="{Binding AddNumberToLoginCommand}" CommandParameter="1"></Button>
+            <Button Grid.Row="0" Grid.Column="1" Text="2" Command="{Binding AddNumberToLoginCommand}" CommandParameter="2"></Button>
+            <Button Grid.Row="0" Grid.Column="2" Text="3" Command="{Binding AddNumberToLoginCommand}" CommandParameter="3"></Button>
+            <Button Grid.Row="1" Grid.Column="0" Text="4" Command="{Binding AddNumberToLoginCommand}" CommandParameter="4"></Button>
+            <Button Grid.Row="1" Grid.Column="1" Text="5" Command="{Binding AddNumberToLoginCommand}" CommandParameter="5"></Button>
+            <Button Grid.Row="1" Grid.Column="2" Text="6" Command="{Binding AddNumberToLoginCommand}" CommandParameter="6"></Button>
+            <Button Grid.Row="2" Grid.Column="0" Text="7" Command="{Binding AddNumberToLoginCommand}" CommandParameter="7"></Button>
+            <Button Grid.Row="2" Grid.Column="1" Text="8" Command="{Binding AddNumberToLoginCommand}" CommandParameter="8"></Button>
+            <Button Grid.Row="2" Grid.Column="2" Text="9" Command="{Binding AddNumberToLoginCommand}" CommandParameter="9"></Button>
+            <Button Grid.Row="3" Grid.Column="0" Text="Slet"></Button>
+            <Button Grid.Row="3" Grid.Column="1" Text="0" Command="{Binding AddNumberToLoginCommand}" CommandParameter="0"></Button>
+            <Button Grid.Row="3" Grid.Column="2" Text="Ok"></Button>
+        </Grid>-->
+    </StackLayout>
+</pages:PopupPage>

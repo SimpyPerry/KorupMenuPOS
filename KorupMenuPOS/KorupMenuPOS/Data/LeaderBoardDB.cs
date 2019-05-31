@@ -17,6 +17,7 @@ namespace KorupMenuPOS.Data
         {
             _database = new SQLiteAsyncConnection(dbPath);
             _database.CreateTableAsync<ChallengePerson>().Wait();
+            
         }
 
         public Task<int> AddTimeToLeaderBoard(string challengeTime, string challengerName)

@@ -2,7 +2,8 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewmodel="clr-namespace:KorupMenuPOS.ViewModel"
-             x:Class="KorupMenuPOS.View.MenuPage">
+             x:Class="KorupMenuPOS.View.MenuPage"
+             x:Name="Page">
     <ContentPage.BindingContext>
         <viewmodel:MenuPageViewModel>
             
@@ -24,27 +25,38 @@
        </ResourceDictionary>
     </ContentPage.Resources>
 
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Refresh" Command="{Binding RefreshMenuCommand}">
+            
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
+
     <ContentPage.Content>
         <StackLayout>
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*">
-                        
-                    </RowDefinition>
+                    <RowDefinition Height="2*"></RowDefinition>
+                    <RowDefinition Height="1*"></RowDefinition>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*"></ColumnDefinition>
-                    <ColumnDefinition Width="2*"></ColumnDefinition>
                     <ColumnDefinition Width="1*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <StackLayout Grid.Row="0" Grid.Column="0">
                     <Label Text="Kategorier"></Label>
-                    <ListView>
+                    <ListView ItemsSource="{Binding MenuEmner}" SelectedItem="{Binding ChosenCategory}">
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <TextCell>
+                                <ViewCell>
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="{Binding Name}"></Label>
+                                        <Button Text="+" HorizontalOptions="EndAndExpand" Command="{Binding Path=BindingContext.GetProductsForCategoryCommand, Source={x:Reference Page}}" CommandParameter="{Binding .}"></Button>
+                                    </StackLayout>
                                     
-                                </TextCell>
+                                </ViewCell>
+                                <!--<TextCell Text="{Binding Name}" Detail="{Binding Description}">
+                                  
+                                </TextCell>-->
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
@@ -52,12 +64,53 @@
                 
                 <StackLayout Grid.Row="0" Grid.Column="1">
                     <Label Text="Retter"></Label>
+                    <ListView ItemsSource="{Binding Products}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="{Binding ProductName}" HorizontalOptions="StartAndExpand"></Label>
+                                        <Label Text="{Binding Description}" HorizontalOptions="CenterAndExpand"></Label>
+                                        <!--<Label Text="+" HorizontalOptions="End">
+                                           
+                                            --><!--<Label.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding Path=BindingContext.addProductToOrderList}" CommandParameter="{Binding .}"></TapGestureRecognizer>
+                                            </Label.GestureRecognizers>--><!--
+                                        </Label>-->
+                                        <Button Text="-" HorizontalOptions="End" Command="{Binding Path=BindingContext.removeProductFromOrderListCommand, Source={x:Reference Page}}" CommandParameter="{Binding .}"></Button>
+                                        <Button Text="+" HorizontalOptions="End" Command="{Binding Path=BindingContext.addProductToOrderList, Source={x:Reference Page}}" CommandParameter="{Binding .}"></Button>
+                                        
+                                    </StackLayout>
+                                    
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    <Button x:Name="GoToChallengePage_button" Clicked="GoToChallengePage_button_Clicked" Text="Gå til Timeren"></Button>
                 </StackLayout>
-                <StackLayout Grid.Row="0" Grid.Column="3">
+                <StackLayout Grid.Row="1">
                     <Label Text="Kvitering"></Label>
+                    <ListView ItemsSource="{Binding OrderList}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="{Binding  ProdcutName}" HorizontalOptions="StartAndExpand"></Label>
+                                        <Label Text="{Binding Price}" HorizontalOptions="CenterAndExpand"></Label>
+                                        <Label Text="{Binding Amount}" HorizontalOptions="End"></Label>
+                                    </StackLayout>
+                                    
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    <Label Text="{Binding TotalePrice}"></Label>
+                    <Button Text="Send Order" Command="{Binding SendOrderCommand}"></Button>
+                    <Label Text="{Binding OrderSendtResult}"></Label>
+                    <Button Text="Placer ordre" x:Name="PlaceOrder_PopUp" Clicked="PlaceOrder_PopUp_Clicked"></Button>
                 </StackLayout>
             </Grid>
-            <Button x:Name="GoToChallengePage_button" Clicked="GoToChallengePage_button_Clicked" Text="Gå til Timeren"></Button>
+           
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
