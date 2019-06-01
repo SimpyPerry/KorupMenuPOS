@@ -1,4 +1,5 @@
-﻿using Rg.Plugins.Popup.Services;
+﻿using KorupMenuPOS.ViewModel;
+using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace KorupMenuPOS.View
 		public MenuPage ()
 		{
 			InitializeComponent ();
+            
 		}
 
         private void GoToChallengePage_button_Clicked(object sender, EventArgs e)

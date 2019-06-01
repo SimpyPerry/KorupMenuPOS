@@ -17,7 +17,7 @@
 
     <StackLayout x:Name="LoginDisplay" VerticalOptions="Center" HorizontalOptions="Center" BackgroundColor="White">
         <!--<Label x:Name="DisplayLabel" VerticalOptions="Center" Text="{Binding LoginCode}"></Label>-->
-        <Entry x:Name="PincodeEntry" Placeholder="Indtast kode" Keyboard="Numeric" ReturnCommand="{Binding AddNumberToLoginCommand}" ReturnCommandParameter="{Binding .}">
+        <Entry x:Name="PincodeEntry" Placeholder="Indtast kode" Keyboard="Numeric" Completed="PincodeEntry_Completed"  ReturnCommandParameter="{Binding .}">
             <Entry.Behaviors>
                 <local:CustomEntryBehavier>
                     

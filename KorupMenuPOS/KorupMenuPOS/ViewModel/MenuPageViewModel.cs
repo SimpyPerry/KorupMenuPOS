@@ -17,7 +17,6 @@ namespace KorupMenuPOS.ViewModel
     public class MenuPageViewModel : INotifyPropertyChanged
     {  
         public event PropertyChangedEventHandler PropertyChanged;
-
         public List<Categories> MenuEmner { get; set; }
         public List<Product> Products { get; set; }
 
@@ -52,12 +51,11 @@ namespace KorupMenuPOS.ViewModel
             
         //Lister skal være observableCollection da PropertyChanged ikke reagere på lister der har tilføjet et element
         //Kun når en list går fra null til have et element eller fra til null
-        public ObservableCollection<Order> OrderList { get; set; }
+        public ObservableCollection<OrderItem> OrderList { get; set; }
         public double TotalePrice { get; set; }
 
         public MenuPageViewModel()
         {
-            
 
             GetMenuData();
            
@@ -67,6 +65,7 @@ namespace KorupMenuPOS.ViewModel
             RefreshMenuCommand = new Command(Refresh);
             GetProductsForCategoryCommand = new Command<Categories>(GetProductsToList);
             SendOrderCommand = new Command(SendOrder);
+            OrderToViewModel = new Command(MessageOrderToViewModel);
         }
 
         public ICommand addProductToOrderList { private set; get; }
@@ -74,6 +73,7 @@ namespace KorupMenuPOS.ViewModel
         public ICommand RefreshMenuCommand { get; private set; }
         public ICommand GetProductsForCategoryCommand { get; private set; }
         public ICommand SendOrderCommand { get; private set; }
+        public ICommand OrderToViewModel { get; private set; }
         
         private async void Refresh()
         {
@@ -92,8 +92,6 @@ namespace KorupMenuPOS.ViewModel
 
             OnPropertyChanged(nameof(MenuEmner));
         }
-
-
 
         private async void GetProductsToList(Categories cate)
         {
@@ -153,40 +151,47 @@ namespace KorupMenuPOS.ViewModel
         }
 
         ObservableCollection<Product> p = new ObservableCollection<Product>();
-        ObservableCollection<Order> noDubs = new ObservableCollection<Order>();
+        ObservableCollection<OrderItem> noDubs = new ObservableCollection<OrderItem>();
 
         public void AddToOrder(Product addedProduct)
         {
 
-            double price = addedProduct.SellingPrice;
-            
+            p.Add(addedProduct);
 
+            List<Product> addedProductList = new List<Product>();
 
-            if (!p.Contains(addedProduct))
+            addedProductList = p.Where(x => x.ProductId == addedProduct.ProductId).ToList();
+
+            int number = 0;
+
+            foreach(Product product in addedProductList)
             {
-                p.Add(addedProduct);
+                number++;
+            }
 
-                
-                    Order o = new Order()
-                    {
-                        ProductId = addedProduct.ProductId,
-                        ProdcutName = addedProduct.ProductName,
-                        Price = addedProduct.SellingPrice,
-                        CategoryId = addedProduct.CategoryID,
-                        Amount = 1
-                    };
 
-                    noDubs.Add(o);
-                
+            var item = noDubs.Where(x => x.ProductId == addedProduct.ProductId).FirstOrDefault();
+
+            if(item == null)
+            {
+                OrderItem o = new OrderItem()
+                {
+                    ProductId = addedProduct.ProductId,
+                    Price = addedProduct.SellingPrice,
+                    ProdcutName = addedProduct.ProductName,
+                    Amount = 1
+
+                };
+
+                noDubs.Add(o);
             }
             else
             {
-                p.Add(addedProduct);
-                noDubs.Where(x => x.ProductId == addedProduct.ProductId).FirstOrDefault().Amount++;
-                
+                noDubs.Where(x => x.ProductId == addedProduct.ProductId).FirstOrDefault().Amount = number;
             }
+       
 
-            
+            double price = addedProduct.SellingPrice;
 
             OrderList = noDubs;
 
@@ -201,44 +206,70 @@ namespace KorupMenuPOS.ViewModel
         {
             double subtractedPrice = removedProduct.SellingPrice;
 
-            if (p.Contains(removedProduct))
+            
+
+            if (p.Any(x => x.ProductId == removedProduct.ProductId))
             {
-                noDubs.Where(x => x.ProductId == removedProduct.ProductId).FirstOrDefault().Amount--;
+                TotalePrice = TotalePrice - subtractedPrice;
 
-                if (p.Where(x => x == removedProduct).Count() == 1)
+                //Finder index af et product i p listen der matcher productname af removedproduct
+                var index = p.IndexOf(p.Where(x => x.ProductName == removedProduct.ProductName).FirstOrDefault());
+
+                p.RemoveAt(index);
+                
+
+
+
+                List<Product> removedProductList = new List<Product>();
+                removedProductList = p.Where(x => x.ProductId == removedProduct.ProductId).ToList();
+
+                var item = noDubs.Where(x => x.ProductId == removedProduct.ProductId).FirstOrDefault();
+                
+                if (!removedProductList.Any())
                 {
-                    for(int i = noDubs.Count() - 1; i >= 0; i--)
-                    {
-                        if(noDubs[i].ProdcutName == removedProduct.ProductName)
-                        {
-                            noDubs[i].Amount = 0;
-                            noDubs.RemoveAt(i);
-                            
-                        }
-                    }
-
-                    
-                        //Where(x => x.ProdcutName == removedProduct.ProductName);
-                }
-
-
-
-                p.Remove(removedProduct);
-
-                OrderList = noDubs;
-                if (!p.Any())
-                {
-                    TotalePrice = 0;
+                    item.Amount = 0;
+                    noDubs.Remove(item);
                 }
                 else
                 {
-                    TotalePrice = TotalePrice - subtractedPrice;
-                   
+                    item.Amount = removedProductList.Count();
                 }
-                
-                
-            }
 
+                    
+
+
+
+            }else if(!p.Any())
+            {
+                TotalePrice = 0;
+            }
+            
+
+
+            //if (p.Contains(removedProduct))
+            //{
+
+
+            //    //if (p.Where(x => x == removedProduct).Count() == 1)
+            //    //{
+            //    //    for(int i = noDubs.Count() - 1; i >= 0; i--)
+            //    //    {
+            //    //        if(noDubs[i].ProductId == removedProduct.ProductId)
+            //    //        {
+            //    //            noDubs[i].Amount = 0;
+            //    //            noDubs.RemoveAt(i);
+
+            //    //        }
+            //    //    }
+
+
+            //    //        //Where(x => x.ProdcutName == removedProduct.ProductName);
+            //    //}
+
+
+            //}
+
+            OrderList = noDubs;
 
             OnPropertyChanged(nameof(OrderList));
             OnPropertyChanged(nameof(TotalePrice));
@@ -254,9 +285,18 @@ namespace KorupMenuPOS.ViewModel
 
                 OnPropertyChanged(nameof(OrderSendtResult));
             }
-           
+
             
 
+        }
+
+        private void MessageOrderToViewModel()
+        {
+            if(noDubs != null)
+            {
+                MessagingCenter.Send(this, "Order", noDubs);
+            }
+            
         }
 
         void OnPropertyChanged([CallerMemberName] string propertyName = "")
@@ -266,42 +306,42 @@ namespace KorupMenuPOS.ViewModel
 
 
 
-        private MenuPageViewModel _model;
+        //private MenuPageViewModel _model;
 
-        public MenuPageViewModel model
-        {
-            get
-            {
-                return _model;
-            }
-            set
-            {
-                _model = value;
-                OnPropertyChanged(nameof(model));
+        //public MenuPageViewModel model
+        //{
+        //    get
+        //    {
+        //        return _model;
+        //    }
+        //    set
+        //    {
+        //        _model = value;
+        //        OnPropertyChanged(nameof(model));
 
-                this.model2 = new LoggedInViewModel(value);
-            }
-        }
-
-
+        //        this.model2 = new LoggedInViewModel(value);
+        //    }
+        //}
 
 
-        private LoggedInViewModel _model2;
-        public LoggedInViewModel model2
-        {
-            get
-            {
-                return _model2;
-            }
-            set
-            {
-                if(_model2 != value)
-                {
-                    _model2 = value;
-                    OnPropertyChanged(nameof(model2));
-                }
-            }
-        }
+
+
+        //private LoggedInViewModel _model2;
+        //public LoggedInViewModel model2
+        //{
+        //    get
+        //    {
+        //        return _model2;
+        //    }
+        //    set
+        //    {
+        //        if(_model2 != value)
+        //        {
+        //            _model2 = value;
+        //            OnPropertyChanged(nameof(model2));
+        //        }
+        //    }
+        //}
     }
 }
 

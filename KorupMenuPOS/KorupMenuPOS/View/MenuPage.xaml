@@ -95,7 +95,7 @@
                             <DataTemplate>
                                 <ViewCell>
                                     <StackLayout Orientation="Horizontal">
-                                        <Label Text="{Binding  ProdcutName}" HorizontalOptions="StartAndExpand"></Label>
+                                        <Label Text="{Binding ProdcutName}" HorizontalOptions="StartAndExpand"></Label>
                                         <Label Text="{Binding Price}" HorizontalOptions="CenterAndExpand"></Label>
                                         <Label Text="{Binding Amount}" HorizontalOptions="End"></Label>
                                     </StackLayout>
@@ -107,7 +107,7 @@
                     <Label Text="{Binding TotalePrice}"></Label>
                     <Button Text="Send Order" Command="{Binding SendOrderCommand}"></Button>
                     <Label Text="{Binding OrderSendtResult}"></Label>
-                    <Button Text="Placer ordre" x:Name="PlaceOrder_PopUp" Clicked="PlaceOrder_PopUp_Clicked"></Button>
+                    <Button Text="Placer ordre" x:Name="PlaceOrder_PopUp" Clicked="PlaceOrder_PopUp_Clicked" Command="{Binding OrderToViewModel}"></Button>
                 </StackLayout>
             </Grid>
            

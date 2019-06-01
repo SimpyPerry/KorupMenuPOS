@@ -33,7 +33,7 @@ namespace KorupMenuPOS.Data
             return await restService.GetProductsAsync();
         }
 
-        public async Task<string> SendeOrderToPOS(List<Order> orders)
+        public async Task<string> SendeOrderToPOS(List<OrderItem> orders)
         {
             return await restService.SendListOfOrderToPOS(orders);
         } 

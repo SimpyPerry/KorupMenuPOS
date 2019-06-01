@@ -12,7 +12,7 @@ namespace KorupMenuPOS.Data
         Task<List<Categories>> RefreshMenuDataAsync();
         Task<Categories> GetTheCategori(int id);
         Task<List<Product>> GetProductsAsync();
-        Task<string> SendListOfOrderToPOS(List<Order> orders);
+        Task<string> SendListOfOrderToPOS(List<OrderItem> orders);
         Task<HttpResponseMessage> SendLoginPinAsync(int pin);
     }
 }

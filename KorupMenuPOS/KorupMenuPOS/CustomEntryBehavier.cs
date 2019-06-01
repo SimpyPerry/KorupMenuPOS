@@ -17,7 +17,7 @@ namespace KorupMenuPOS
         {
             //Setup
             entry.TextChanged += OnEntryTextChanged;
-            entry.Completed += OnEntryCompleted;
+            //entry.Completed += OnEntryCompleted;
             base.OnAttachedTo(entry);
         }
 
@@ -27,7 +27,7 @@ namespace KorupMenuPOS
         {
             //Clean up
             entry.TextChanged -= OnEntryTextChanged;
-            entry.Completed -= OnEntryCompleted;
+            //entry.Completed -= OnEntryCompleted;
             base.OnDetachingFrom(entry);
         }
 
@@ -58,33 +58,33 @@ namespace KorupMenuPOS
             }
         }
 
-        private async void OnEntryCompleted(object sender, EventArgs e)
-        {
-            var entry = ((Entry)sender);
+        //private void OnEntryCompleted(object sender, EventArgs e)
+        //{
+        //    var entry = ((Entry)sender);
 
-            int pin = int.Parse(entry.Text);
+        //    int pin = int.Parse(entry.Text);
 
-            if (entry.Text.Length < 4)
-            {
-                entry.Text = "";
-            }
-            else
-            {
-                var result = await App.Restmanager.ServerLogin(pin);
+        //    if (entry.Text.Length < 4)
+        //    {
+        //        entry.Text = entry.Text;
+        //    }
+        //    //else
+        //    //{
+        //    //    var result = await App.Restmanager.ServerLogin(pin);
 
                 
-                if(result.IsSuccessStatusCode)
-                {
-                    entry.Text = "12";
-                }
-                else
-                {
+        //    //    if(result.IsSuccessStatusCode)
+        //    //    {
+        //    //        entry.Text = "12";
+        //    //    }
+        //    //    else
+        //    //    {
 
-                    entry.Text = "02";
-                    //await App.Current.MainPage.Navigation.PushAsync(new LoggedInPage());
-                }
-            }
-        }
+        //    //        entry.Text = "02";
+        //    //        //await App.Current.MainPage.Navigation.PushAsync(new LoggedInPage());
+        //    //    }
+        //    //}
+        //}
 
 
     }

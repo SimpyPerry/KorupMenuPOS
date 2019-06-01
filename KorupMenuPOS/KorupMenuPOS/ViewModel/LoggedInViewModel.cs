@@ -5,6 +5,8 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace KorupMenuPOS.ViewModel
 {
@@ -16,13 +18,24 @@ namespace KorupMenuPOS.ViewModel
         public double PrizeSum { get; set; }
         
 
-        public LoggedInViewModel(MenuPageViewModel model)
+        public LoggedInViewModel()
         {
-            OrderList = model.OrderList;
-            PrizeSum = model.TotalePrice;
+            ReceiveOrderCommand = new Command(ReciveOrderList);
+            ReciveOrderList();
         }
 
+        public ICommand ReceiveOrderCommand { get; private set; }
 
+        private void  ReciveOrderList()
+        {
+            MessagingCenter.Subscribe<MenuPageViewModel, ObservableCollection<Order>>(this, "Order", (s,a) =>
+            {
+                OrderList = a;
+
+            });
+
+            OnPropertyChanged(nameof(OrderList));
+        }
 
         void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {

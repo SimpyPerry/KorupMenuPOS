@@ -101,7 +101,7 @@ namespace KorupMenuPOS.Data
 
         }
 
-        public async Task<string> SendListOfOrderToPOS(List<Order> orders)
+        public async Task<string> SendListOfOrderToPOS(List<OrderItem> orders)
         {
             //Order theOrder = new Order();
 
@@ -126,7 +126,7 @@ namespace KorupMenuPOS.Data
             JArray products = new JArray();
 
 
-            foreach (Order o in orders)
+            foreach (OrderItem o in orders)
             {
                 products.Add(JObject.Parse(
                     @"{""ProductId"":""" + o.ProductId + "\", " + @"""Amount"":""" + o.Amount + @"""}"));
