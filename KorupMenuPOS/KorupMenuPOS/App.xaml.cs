@@ -14,6 +14,7 @@ namespace KorupMenuPOS
         static MenuDatabase menuDatabase;
         static ProductDatabase productDatabase;
         public static RestServicesManager Restmanager { get; private set; }
+        public static OrderItemServiceManager ItemManager { get; private set; }
         
         //Denne returnere den lokale file path til at gemme i databasen
         public static LeaderBoardDB Database
@@ -54,6 +55,7 @@ namespace KorupMenuPOS
         {
             InitializeComponent();
             Restmanager = new RestServicesManager(new Restservice());
+            ItemManager = new OrderItemServiceManager(new OrderItemService());
             MainPage = new NavigationPage(new MenuPage());
         }
 

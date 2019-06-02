@@ -16,8 +16,9 @@ namespace KorupMenuPOS.View
 	{
 		public MenuPage ()
 		{
+
 			InitializeComponent ();
-            
+
 		}
 
         private void GoToChallengePage_button_Clicked(object sender, EventArgs e)
@@ -27,7 +28,10 @@ namespace KorupMenuPOS.View
 
         private void PlaceOrder_PopUp_Clicked(object sender, EventArgs e)
         {
-            PopupNavigation.Instance.PushAsync(new PopupAuthenticate());
+            
+
+            Navigation.PushAsync(new OrderPage());
+            //PopupNavigation.Instance.PushAsync(new PopupAuthenticate());
         }
     }
 }

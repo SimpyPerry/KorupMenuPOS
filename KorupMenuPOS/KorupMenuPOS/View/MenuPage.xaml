@@ -90,24 +90,23 @@
                 </StackLayout>
                 <StackLayout Grid.Row="1">
                     <Label Text="Kvitering"></Label>
-                    <ListView ItemsSource="{Binding OrderList}">
+                    <ListView ItemsSource="{Binding OrderList}"  x:Name="OrderList">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
+                                  <ViewCell.View>
                                     <StackLayout Orientation="Horizontal">
                                         <Label Text="{Binding ProdcutName}" HorizontalOptions="StartAndExpand"></Label>
                                         <Label Text="{Binding Price}" HorizontalOptions="CenterAndExpand"></Label>
                                         <Label Text="{Binding Amount}" HorizontalOptions="End"></Label>
                                     </StackLayout>
-                                    
+                                  </ViewCell.View>
                                 </ViewCell>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
                     <Label Text="{Binding TotalePrice}"></Label>
-                    <Button Text="Send Order" Command="{Binding SendOrderCommand}"></Button>
-                    <Label Text="{Binding OrderSendtResult}"></Label>
-                    <Button Text="Placer ordre" x:Name="PlaceOrder_PopUp" Clicked="PlaceOrder_PopUp_Clicked" Command="{Binding OrderToViewModel}"></Button>
+                    <Button Text="Se Ordre" x:Name="PlaceOrder_PopUp" Clicked="PlaceOrder_PopUp_Clicked"  Command="{Binding SaveOrderCommand}"></Button>
                 </StackLayout>
             </Grid>
            

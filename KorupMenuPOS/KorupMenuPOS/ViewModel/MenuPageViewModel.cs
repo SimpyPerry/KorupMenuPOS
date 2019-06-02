@@ -19,7 +19,6 @@ namespace KorupMenuPOS.ViewModel
         public event PropertyChangedEventHandler PropertyChanged;
         public List<Categories> MenuEmner { get; set; }
         public List<Product> Products { get; set; }
-
         private Product _chosenProduct { get; set; }
         public Product ChosenProduct { get; set; }
         //{
@@ -56,16 +55,15 @@ namespace KorupMenuPOS.ViewModel
 
         public MenuPageViewModel()
         {
-
+            
             GetMenuData();
-           
+            
 
             addProductToOrderList = new Command<Product>(AddToOrder);
             removeProductFromOrderListCommand = new Command<Product>(RemoveFromOrder);
             RefreshMenuCommand = new Command(Refresh);
             GetProductsForCategoryCommand = new Command<Categories>(GetProductsToList);
-            SendOrderCommand = new Command(SendOrder);
-            OrderToViewModel = new Command(MessageOrderToViewModel);
+            SaveOrderCommand = new Command(SendOrder);
         }
 
         public ICommand addProductToOrderList { private set; get; }
@@ -73,8 +71,8 @@ namespace KorupMenuPOS.ViewModel
         public ICommand RefreshMenuCommand { get; private set; }
         public ICommand GetProductsForCategoryCommand { get; private set; }
         public ICommand SendOrderCommand { get; private set; }
-        public ICommand OrderToViewModel { get; private set; }
-        
+        public ICommand SaveOrderCommand { get; private set; }
+
         private async void Refresh()
         {
             
@@ -84,6 +82,9 @@ namespace KorupMenuPOS.ViewModel
             GetMenuData();
             
         }
+
+        
+
         private async void GetMenuData()
         {
             //MenuEmner = await App.Restmanager.GetMenuData();
@@ -96,7 +97,7 @@ namespace KorupMenuPOS.ViewModel
         private async void GetProductsToList(Categories cate)
         {
 
-            Products = new List<Product>();
+              Products = new List<Product>();
             
 
               Products = await App.PDatabase.GetProductsForCategory(cate);
@@ -277,27 +278,21 @@ namespace KorupMenuPOS.ViewModel
 
         public string OrderSendtResult { get; set; }
 
-        public async void SendOrder()
+        public void SendOrder()
         {
             if(noDubs != null)
             {
-               OrderSendtResult = await App.Restmanager.SendeOrderToPOS(noDubs.ToList());
 
-                OnPropertyChanged(nameof(OrderSendtResult));
+                App.ItemManager.AddListToService(noDubs);
+
+               //OrderSendtResult = await App.Restmanager.SendeOrderToPOS(noDubs.ToList());
+
+               // OnPropertyChanged(nameof(OrderSendtResult));
             }
-
-            
 
         }
 
-        private void MessageOrderToViewModel()
-        {
-            if(noDubs != null)
-            {
-                MessagingCenter.Send(this, "Order", noDubs);
-            }
-            
-        }
+        
 
         void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
