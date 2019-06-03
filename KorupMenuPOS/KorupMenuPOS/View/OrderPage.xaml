@@ -21,6 +21,7 @@
                                     <Label Text="{Binding Amount}"></Label>
                                     <Label Text="{Binding Price}"></Label>
                                     <Button Text="-" Command="{Binding Path=BindingContext.RemoveCommand, Source={x:Reference Page2}}" CommandParameter="{Binding .}"></Button>
+                                    <Button Text="+" Command="{Binding Path=BindingContext.AddToOrderCommand, Source={x:Reference Page2}}" CommandParameter="{Binding .}"></Button>
                                 </StackLayout>
                             </ViewCell.View>
                         </ViewCell>
@@ -28,6 +29,7 @@
                 </ListView.ItemTemplate>
             </ListView>
             <Label Text="{Binding TotalPrice}"></Label>
+            <Button Text="Send Ordre" x:Name="Send_order_btn" Clicked="Send_order_btn_Clicked"></Button>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

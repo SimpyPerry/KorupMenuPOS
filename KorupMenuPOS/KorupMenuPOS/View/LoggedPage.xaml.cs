@@ -16,5 +16,29 @@ namespace KorupMenuPOS.View
 		{
 			InitializeComponent ();
 		}
-	}
+
+        private async void Refresh_btn_Clicked(object sender, EventArgs e)
+        {
+            await App.MDatabase.RefreshDatabaseDataAsync();
+            await App.PDatabase.CreateOrUpdateProductDB();
+        }
+
+        private async void GoToTimer_btn_Clicked(object sender, EventArgs e)
+        {
+           await Navigation.PushAsync(new TimerView());
+        }
+
+        private async void GoToLeaderBoard_btn_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new LeaderBoardPage());
+        }
+
+        private void Exit_App_btn_Clicked(object sender, EventArgs e)
+        {
+            //For IOS
+            //Thread.CurrentThread.Abort();
+
+            Android.OS.Process.KillProcess(Android.OS.Process.MyPid());
+        }
+    }
 }

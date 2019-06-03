@@ -11,5 +11,9 @@ namespace KorupMenuPOS.Data
         ObservableCollection<OrderItem> GetOrderItemsList();
         void AddToList(ObservableCollection<OrderItem> list);
         void RemovedFromOrder(int id);
+        void AddToOrder(Product addedProduct);
+        void RemoveThisFromOrder(Product removedProduct);
+        double CalcultaePrice();
+        void AddToOrderFromOrder(int id);
     }
 }

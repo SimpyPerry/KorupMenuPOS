@@ -15,7 +15,6 @@ namespace KorupMenuPOS.Data
             itemService = service;
         }
 
-
         public ObservableCollection<OrderItem> GetOrderItems()
         {
             return itemService.GetOrderItemsList();
@@ -30,5 +29,26 @@ namespace KorupMenuPOS.Data
         {
             itemService.RemovedFromOrder(id);
         }
+
+        public void AddOneToOrder(Product addedProduct)
+        {
+            itemService.AddToOrder(addedProduct);
+        }
+
+        public void RemoveOneItemWithProduct(Product removedProduct)
+        {
+            itemService.RemoveThisFromOrder(removedProduct);
+        }
+
+        public double GetTotalePrice()
+        {
+            return itemService.CalcultaePrice();
+        }
+
+        public void AddOneItemToOrder(int id)
+        {
+            itemService.AddToOrderFromOrder(id);
+        }
+
     }
 }

@@ -1,5 +1,4 @@
-﻿using KorupMenuPOS.ViewModel;
-using Rg.Plugins.Popup.Pages;
+﻿using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
@@ -13,20 +12,14 @@ using Xamarin.Forms.Xaml;
 namespace KorupMenuPOS.View
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class PopupAuthenticate : PopupPage
+	public partial class ServerLoginPopUpPage : PopupPage
 	{
-		public PopupAuthenticate ()
+		public ServerLoginPopUpPage ()
 		{
 			InitializeComponent ();
-
-            BindingContext = new PopupAuthenticateViewModel();
 		}
 
-
-        private async void Goback_btn_Clicked(object sender, EventArgs e)
-        {
-            await PopupNavigation.Instance.PopAllAsync();
-        }
+      
 
         private async void PincodeEntry_Completed(object sender, EventArgs e)
         {
@@ -35,26 +28,28 @@ namespace KorupMenuPOS.View
             var pin = int.Parse(entry);
 
 
-
             if (entry.Length == 4)
             {
                 var result = await App.Restmanager.ServerLogin(pin);
 
                 if (result.IsSuccessStatusCode)
                 {
-                    
-                    var order = App.ItemManager.GetOrderItems();
+                    await Navigation.PushAsync(new LoggedPage());
 
-                    entry = await App.Restmanager.SendeOrderToPOS(order);
+                    
                 }
                 else
                 {
                     PincodeEntry.Text = null;
                     PincodeEntry.Placeholder = "Forkert kode";
-                    
+                    await Navigation.PushAsync(new LoggedPage());
                 }
             }
+        }
 
+        private async void Goback_btn_Clicked(object sender, EventArgs e)
+        {
+            await PopupNavigation.Instance.PopAllAsync();
         }
     }
 }

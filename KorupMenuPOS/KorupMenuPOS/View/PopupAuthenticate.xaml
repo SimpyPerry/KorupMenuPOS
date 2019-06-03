@@ -24,7 +24,7 @@
                 </local:CustomEntryBehavier>
             </Entry.Behaviors>
         </Entry>
-        <Button x:Name="Goback_btn" Clicked="Goback_btn_Clicked"></Button>
+        <Button x:Name="Goback_btn" Text="Luk" Clicked="Goback_btn_Clicked"></Button>
         
         <!--<Grid HorizontalOptions="Center">
             <Grid.RowDefinitions>

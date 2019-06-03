@@ -21,11 +21,14 @@ namespace KorupMenuPOS.ViewModel
 
         public ICommand AddNumberToLoginCommand;
 
-        private void UpdateLoginValue(int number)
+        private async void UpdateLoginValue(int number)
         {
-            LoginCode = number;
+            var response = await App.Restmanager.ServerLogin(number);
 
-            OnPropertyChanged(nameof(LoginCode));
+            if (response.IsSuccessStatusCode)
+            {
+
+            }
         }
 
         void OnPropertyChanged([CallerMemberName] string propertyName = "")

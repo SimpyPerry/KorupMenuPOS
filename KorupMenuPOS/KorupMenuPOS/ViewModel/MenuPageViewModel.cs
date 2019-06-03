@@ -58,12 +58,11 @@ namespace KorupMenuPOS.ViewModel
             
             GetMenuData();
             
-
             addProductToOrderList = new Command<Product>(AddToOrder);
             removeProductFromOrderListCommand = new Command<Product>(RemoveFromOrder);
             RefreshMenuCommand = new Command(Refresh);
             GetProductsForCategoryCommand = new Command<Categories>(GetProductsToList);
-            SaveOrderCommand = new Command(SendOrder);
+            ShowProductInfoCommand = new Command<Product>(ShowProductInfo);
         }
 
         public ICommand addProductToOrderList { private set; get; }
@@ -72,6 +71,7 @@ namespace KorupMenuPOS.ViewModel
         public ICommand GetProductsForCategoryCommand { get; private set; }
         public ICommand SendOrderCommand { get; private set; }
         public ICommand SaveOrderCommand { get; private set; }
+        public ICommand ShowProductInfoCommand { get; private set; }
 
         private async void Refresh()
         {
@@ -83,7 +83,12 @@ namespace KorupMenuPOS.ViewModel
             
         }
 
-        
+        private void ShowProductInfo(Product product)
+        {
+            string message = $"Beskrivelse: {product.Description} {Environment.NewLine}Prise: {product.SellingPrice} {Environment.NewLine}";
+
+            App.Current.MainPage.DisplayAlert(product.ProductName,message, "Luk");
+        }
 
         private async void GetMenuData()
         {
@@ -102,7 +107,6 @@ namespace KorupMenuPOS.ViewModel
 
               Products = await App.PDatabase.GetProductsForCategory(cate);
 
-            
                 //cate.Products;
 
             if(Products == null)
@@ -151,192 +155,93 @@ namespace KorupMenuPOS.ViewModel
             OnPropertyChanged(nameof(Products));
         }
 
-        ObservableCollection<Product> p = new ObservableCollection<Product>();
-        ObservableCollection<OrderItem> noDubs = new ObservableCollection<OrderItem>();
+        //ObservableCollection<Product> p = new ObservableCollection<Product>();
+        //ObservableCollection<OrderItem> noDubs = new ObservableCollection<OrderItem>();
 
         public void AddToOrder(Product addedProduct)
         {
 
-            p.Add(addedProduct);
-
-            List<Product> addedProductList = new List<Product>();
-
-            addedProductList = p.Where(x => x.ProductId == addedProduct.ProductId).ToList();
-
-            int number = 0;
-
-            foreach(Product product in addedProductList)
-            {
-                number++;
-            }
-
-
-            var item = noDubs.Where(x => x.ProductId == addedProduct.ProductId).FirstOrDefault();
-
-            if(item == null)
-            {
-                OrderItem o = new OrderItem()
-                {
-                    ProductId = addedProduct.ProductId,
-                    Price = addedProduct.SellingPrice,
-                    ProdcutName = addedProduct.ProductName,
-                    Amount = 1
-
-                };
-
-                noDubs.Add(o);
-            }
-            else
-            {
-                noDubs.Where(x => x.ProductId == addedProduct.ProductId).FirstOrDefault().Amount = number;
-            }
-       
-
-            double price = addedProduct.SellingPrice;
-
-            OrderList = noDubs;
-
-            TotalePrice = TotalePrice + addedProduct.SellingPrice;
-
-            
-            OnPropertyChanged(nameof(OrderList));
-            OnPropertyChanged(nameof(TotalePrice));
-        }
-
-        public void RemoveFromOrder(Product removedProduct)
-        {
-            double subtractedPrice = removedProduct.SellingPrice;
-
-            
-
-            if (p.Any(x => x.ProductId == removedProduct.ProductId))
-            {
-                TotalePrice = TotalePrice - subtractedPrice;
-
-                //Finder index af et product i p listen der matcher productname af removedproduct
-                var index = p.IndexOf(p.Where(x => x.ProductName == removedProduct.ProductName).FirstOrDefault());
-
-                p.RemoveAt(index);
-                
-
-
-
-                List<Product> removedProductList = new List<Product>();
-                removedProductList = p.Where(x => x.ProductId == removedProduct.ProductId).ToList();
-
-                var item = noDubs.Where(x => x.ProductId == removedProduct.ProductId).FirstOrDefault();
-                
-                if (!removedProductList.Any())
-                {
-                    item.Amount = 0;
-                    noDubs.Remove(item);
-                }
-                else
-                {
-                    item.Amount = removedProductList.Count();
-                }
-
-                    
-
-
-
-            }else if(!p.Any())
-            {
-                TotalePrice = 0;
-            }
-            
-
-
-            //if (p.Contains(removedProduct))
+            //p.Add(addedProduct);
+            //List<Product> addedProductList = new List<Product>();
+            //addedProductList = p.Where(x => x.ProductId == addedProduct.ProductId).ToList();
+            //int number = 0;
+            //foreach(Product product in addedProductList)
             //{
+            //    number++;
+            //}
+            //var item = noDubs.Where(x => x.ProductId == addedProduct.ProductId).FirstOrDefault();
+            //if(item == null)
+            //{
+            //    OrderItem o = new OrderItem()
+            //    {
+            //        ProductId = addedProduct.ProductId,
+            //        Price = addedProduct.SellingPrice,
+            //        ProdcutName = addedProduct.ProductName,
+            //        Amount = 1
 
-
-            //    //if (p.Where(x => x == removedProduct).Count() == 1)
-            //    //{
-            //    //    for(int i = noDubs.Count() - 1; i >= 0; i--)
-            //    //    {
-            //    //        if(noDubs[i].ProductId == removedProduct.ProductId)
-            //    //        {
-            //    //            noDubs[i].Amount = 0;
-            //    //            noDubs.RemoveAt(i);
-
-            //    //        }
-            //    //    }
-
-
-            //    //        //Where(x => x.ProdcutName == removedProduct.ProductName);
-            //    //}
-
-
+            //    };
+            //    noDubs.Add(o);
+            //}
+            //else
+            //{
+            //    noDubs.Where(x => x.ProductId == addedProduct.ProductId).FirstOrDefault().Amount = number;
             //}
 
-            OrderList = noDubs;
+            App.ItemManager.AddOneToOrder(addedProduct);
 
-            OnPropertyChanged(nameof(OrderList));
+            OrderList = App.ItemManager.GetOrderItems();
+
+            TotalePrice = App.ItemManager.GetTotalePrice();
+            
             OnPropertyChanged(nameof(TotalePrice));
-        }
-
-        public string OrderSendtResult { get; set; }
-
-        public void SendOrder()
-        {
-            if(noDubs != null)
-            {
-
-                App.ItemManager.AddListToService(noDubs);
-
-               //OrderSendtResult = await App.Restmanager.SendeOrderToPOS(noDubs.ToList());
-
-               // OnPropertyChanged(nameof(OrderSendtResult));
-            }
-
+            OnPropertyChanged(nameof(OrderList));
         }
 
         
+
+        public void RemoveFromOrder(Product removedProduct)
+        {
+
+            //if (p.Any(x => x.ProductId == removedProduct.ProductId))
+            //{
+            //    TotalePrice = TotalePrice - subtractedPrice;
+            //    //Finder index af et product i p listen der matcher productname af removedproduct
+            //    var index = p.IndexOf(p.Where(x => x.ProductName == removedProduct.ProductName).FirstOrDefault());
+            //    p.RemoveAt(index);
+            //    List<Product> removedProductList = new List<Product>();
+            //    removedProductList = p.Where(x => x.ProductId == removedProduct.ProductId).ToList();
+            //    var item = noDubs.Where(x => x.ProductId == removedProduct.ProductId).FirstOrDefault();
+            //    if (!removedProductList.Any())
+            //    {
+            //        item.Amount = 0;
+            //        noDubs.Remove(item);
+            //    }
+            //    else
+            //    {
+            //        item.Amount = removedProductList.Count();
+            //    }
+            //}else if(!p.Any())
+            //{
+            //    TotalePrice = 0;
+            //}
+
+            App.ItemManager.RemoveOneItemWithProduct(removedProduct);
+
+            TotalePrice = App.ItemManager.GetTotalePrice();
+
+            OrderList = App.ItemManager.GetOrderItems();
+
+            OnPropertyChanged(nameof(TotalePrice));
+            OnPropertyChanged(nameof(OrderList));
+        }
+
 
         void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-
-
-        //private MenuPageViewModel _model;
-
-        //public MenuPageViewModel model
-        //{
-        //    get
-        //    {
-        //        return _model;
-        //    }
-        //    set
-        //    {
-        //        _model = value;
-        //        OnPropertyChanged(nameof(model));
-
-        //        this.model2 = new LoggedInViewModel(value);
-        //    }
-        //}
-
-
-
-
-        //private LoggedInViewModel _model2;
-        //public LoggedInViewModel model2
-        //{
-        //    get
-        //    {
-        //        return _model2;
-        //    }
-        //    set
-        //    {
-        //        if(_model2 != value)
-        //        {
-        //            _model2 = value;
-        //            OnPropertyChanged(nameof(model2));
-        //        }
-        //    }
-        //}
+     
     }
 }
 

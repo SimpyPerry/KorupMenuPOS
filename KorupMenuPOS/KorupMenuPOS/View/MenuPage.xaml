@@ -26,7 +26,7 @@
     </ContentPage.Resources>
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Refresh" Command="{Binding RefreshMenuCommand}">
+        <ToolbarItem Text="Tjener Login" x:Name="ServerLogin" Clicked="ServerLogin_Clicked" Command="{Binding RefreshMenuCommand}">
             
         </ToolbarItem>
     </ContentPage.ToolbarItems>
@@ -49,8 +49,13 @@
                             <DataTemplate>
                                 <ViewCell>
                                     <StackLayout Orientation="Horizontal">
-                                        <Label Text="{Binding Name}"></Label>
-                                        <Button Text="+" HorizontalOptions="EndAndExpand" Command="{Binding Path=BindingContext.GetProductsForCategoryCommand, Source={x:Reference Page}}" CommandParameter="{Binding .}"></Button>
+                                        <Label Text="{Binding Name}">
+                                            <Label.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding Path=BindingContext.GetProductsForCategoryCommand, Source={x:Reference Page}}" CommandParameter="{Binding .}">
+
+                                                </TapGestureRecognizer>
+                                            </Label.GestureRecognizers>
+                                        </Label>
                                     </StackLayout>
                                     
                                 </ViewCell>
@@ -69,8 +74,14 @@
                             <DataTemplate>
                                 <ViewCell>
                                     <StackLayout Orientation="Horizontal">
-                                        <Label Text="{Binding ProductName}" HorizontalOptions="StartAndExpand"></Label>
-                                        <Label Text="{Binding Description}" HorizontalOptions="CenterAndExpand"></Label>
+                                        <Label Text="{Binding ProductName}" HorizontalOptions="StartAndExpand">
+                                            <Label.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding Path=BindingContext.ShowProductInfoCommand, Source={x:Reference Page}}" CommandParameter="{Binding .}">
+                                                    
+                                                </TapGestureRecognizer>
+                                            </Label.GestureRecognizers>
+                                        </Label>
+                                        <!--<Label Text="{Binding Description}" HorizontalOptions="CenterAndExpand"></Label>-->
                                         <!--<Label Text="+" HorizontalOptions="End">
                                            
                                             --><!--<Label.GestureRecognizers>

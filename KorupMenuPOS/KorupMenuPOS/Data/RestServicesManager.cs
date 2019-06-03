@@ -1,6 +1,7 @@
 ﻿using KorupMenuPOS.Model;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,7 +34,7 @@ namespace KorupMenuPOS.Data
             return await restService.GetProductsAsync();
         }
 
-        public async Task<string> SendeOrderToPOS(List<OrderItem> orders)
+        public async Task<string> SendeOrderToPOS(ObservableCollection<OrderItem> orders)
         {
             return await restService.SendListOfOrderToPOS(orders);
         } 

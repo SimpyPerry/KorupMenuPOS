@@ -9,9 +9,11 @@
         </ViewModel:LoggedInViewModel>
     </ContentPage.BindingContext>
     <ContentPage.Content>
-        <StackLayout>
-            <Button ></Button>
-            <ListView ItemsSource="{Binding OrderList}"></ListView>
+        <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
+            <Button Text="Refresh Menu dataen" x:Name="Refresh_btn" Clicked="Refresh_btn_Clicked"></Button>
+            <Button Text="Gå til timeren" x:Name="GoToTimer_btn" Clicked="GoToTimer_btn_Clicked"></Button>
+            <Button Text="Gå til Leaderboard" x:Name="GoToLeaderBoard_btn" Clicked="GoToLeaderBoard_btn_Clicked"></Button>
+            <Button Text="Luk Menu App" x:Name="Exit_App_btn" Clicked="Exit_App_btn_Clicked"></Button>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

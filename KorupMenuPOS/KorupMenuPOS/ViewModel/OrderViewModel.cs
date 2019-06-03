@@ -21,48 +21,38 @@ namespace KorupMenuPOS.ViewModel
         {
 
             OrderItems = App.ItemManager.GetOrderItems();
-            GetTotalPrice();
+            TotalPrice = App.ItemManager.GetTotalePrice();
 
+            OnPropertyChanged(nameof(TotalPrice));
             OnPropertyChanged(nameof(OrderItems));
 
             //Hvis knappen er inde i et list view, skal du vide reference til commanden ellers virker det ikke
             //dette skal gøres i Xaml delen
             RemoveCommand = new Command<OrderItem>(RemovedOneOrderItem);
+            AddToOrderCommand = new Command<OrderItem>(AddOneItemOrder);
         }
 
         public ICommand RemoveCommand { get; private set; }
+        public ICommand AddToOrderCommand { get; private set; }
 
-        private void GetTotalPrice()
-        {
-            if (!OrderItems.Any())
-            {
-                TotalPrice = 0;
-
-
-            }
-            else
-            {
-                double price = 0;
-
-                foreach(OrderItem item in OrderItems)
-                {
-                    double sub = item.Amount * item.Price;
-
-                    price = price + sub;
-                }
-
-                TotalPrice = price;
-            }
-
-            OnPropertyChanged(nameof(TotalPrice));
-        }
+        
         private void RemovedOneOrderItem(OrderItem item)
         {
             App.ItemManager.RemovedOneItemFromOrder(item.ProductId);
 
             OrderItems = App.ItemManager.GetOrderItems();
+            TotalPrice = App.ItemManager.GetTotalePrice();
 
+            OnPropertyChanged(nameof(TotalPrice));
             OnPropertyChanged(nameof(OrderItems));
+        }
+
+        private void AddOneItemOrder(OrderItem item)
+        {
+            App.ItemManager.AddOneItemToOrder(item.ProductId);
+            TotalPrice = App.ItemManager.GetTotalePrice();
+
+            OnPropertyChanged(nameof(TotalPrice));
         }
 
 
@@ -70,5 +60,7 @@ namespace KorupMenuPOS.ViewModel
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+
     }
 }

@@ -33,5 +33,18 @@ namespace KorupMenuPOS.View
             Navigation.PushAsync(new OrderPage());
             //PopupNavigation.Instance.PushAsync(new PopupAuthenticate());
         }
+
+        private void ServerLogin_Clicked(object sender, EventArgs e)
+        {
+            PopupNavigation.Instance.PushAsync(new ServerLoginPopUpPage());
+        }
+
+        protected override bool OnBackButtonPressed()
+        {
+            base.OnBackButtonPressed();
+            return true;
+        }
+
+        
     }
 }

@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage
+    xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup" xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:KorupMenuPOS"
+    x:Class="KorupMenuPOS.View.ServerLoginPopUpPage">
+
+    <StackLayout VerticalOptions="Center" HorizontalOptions="Center" BackgroundColor="White">
+        <Entry x:Name="PincodeEntry" Placeholder="Indtast kode" Keyboard="Numeric" Completed="PincodeEntry_Completed">
+            <Entry.Behaviors>
+                <local:CustomEntryBehavier>
+
+                </local:CustomEntryBehavier>
+            </Entry.Behaviors>
+        </Entry>
+        <Button x:Name="Goback_btn" Text="Luk" Clicked="Goback_btn_Clicked"></Button>
+    </StackLayout>
+</pages:PopupPage>

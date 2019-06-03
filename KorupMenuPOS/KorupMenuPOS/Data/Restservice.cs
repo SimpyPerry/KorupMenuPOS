@@ -7,6 +7,7 @@ using KorupMenuPOS.Model;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Microsoft.CSharp;
+using System.Collections.ObjectModel;
 
 namespace KorupMenuPOS.Data
 {
@@ -101,7 +102,7 @@ namespace KorupMenuPOS.Data
 
         }
 
-        public async Task<string> SendListOfOrderToPOS(List<OrderItem> orders)
+        public async Task<string> SendListOfOrderToPOS(ObservableCollection<OrderItem> orders)
         {
             //Order theOrder = new Order();
 
