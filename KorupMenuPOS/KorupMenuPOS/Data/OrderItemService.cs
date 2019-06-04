@@ -16,6 +16,7 @@ namespace KorupMenuPOS.Data
         private ObservableCollection<OrderItem> items;
         private ObservableCollection<Product> products;
 
+        private string message;
         private double _total;
         public double total
         {
@@ -33,6 +34,7 @@ namespace KorupMenuPOS.Data
             items = new ObservableCollection<OrderItem>();
             products = new ObservableCollection<Product>();
             total = new double();
+            message = "";
             
         }
 
@@ -167,6 +169,24 @@ namespace KorupMenuPOS.Data
         void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public void CommentToOrder(string comment)
+        {
+            if(comment != null)
+            {
+                message = comment;
+            }
+            else
+            {
+                message = "";
+            }
+            
+        }
+
+        public string GetTheComment()
+        {
+            return message;
         }
     }
 }

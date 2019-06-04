@@ -16,16 +16,23 @@
     
 
     <StackLayout x:Name="LoginDisplay" VerticalOptions="Center" HorizontalOptions="Center" BackgroundColor="White">
+        
         <!--<Label x:Name="DisplayLabel" VerticalOptions="Center" Text="{Binding LoginCode}"></Label>-->
-        <Entry x:Name="PincodeEntry" Placeholder="Indtast kode" Keyboard="Numeric" Completed="PincodeEntry_Completed"  ReturnCommandParameter="{Binding .}">
+        <Entry x:Name="PincodeEntry" Placeholder="{Binding PlaceHolder}" Text="{Binding Pin, Mode=TwoWay}" Keyboard="Numeric">
             <Entry.Behaviors>
                 <local:CustomEntryBehavier>
                     
                 </local:CustomEntryBehavier>
             </Entry.Behaviors>
         </Entry>
-        <Button x:Name="Goback_btn" Text="Luk" Clicked="Goback_btn_Clicked"></Button>
-        
+        <ActivityIndicator IsRunning="{Binding IsBusy}">
+            
+        </ActivityIndicator>
+        <StackLayout Orientation="Horizontal">
+            <Button x:Name="Goback_btn" Text="Luk" Clicked="Goback_btn_Clicked"></Button>
+            <Button Text="Send" Command="{Binding EnterPinCommand}"></Button>
+        </StackLayout>
+
         <!--<Grid HorizontalOptions="Center">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"></RowDefinition>

@@ -17,6 +17,8 @@ namespace KorupMenuPOS.ViewModel
         
         public ObservableCollection<OrderItem> OrderItems { get; set; }
         public double TotalPrice { get; set; }
+        public bool IsBusy { get; set; } = false;
+        public string Comment { get; set; } = "";
         public OrderViewModel()
         {
 

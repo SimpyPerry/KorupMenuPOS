@@ -28,33 +28,8 @@ namespace KorupMenuPOS.View
             await PopupNavigation.Instance.PopAllAsync();
         }
 
-        private async void PincodeEntry_Completed(object sender, EventArgs e)
-        {
-            string entry = PincodeEntry.Text;
+        
 
-            var pin = int.Parse(entry);
-
-
-
-            if (entry.Length == 4)
-            {
-                var result = await App.Restmanager.ServerLogin(pin);
-
-                if (result.IsSuccessStatusCode)
-                {
-                    
-                    var order = App.ItemManager.GetOrderItems();
-
-                    entry = await App.Restmanager.SendeOrderToPOS(order);
-                }
-                else
-                {
-                    PincodeEntry.Text = null;
-                    PincodeEntry.Placeholder = "Forkert kode";
-                    
-                }
-            }
-
-        }
+        
     }
 }

@@ -5,6 +5,7 @@ using System.Text;
 using KorupMenuPOS.Model;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace KorupMenuPOS.Data
 {
@@ -26,14 +27,32 @@ namespace KorupMenuPOS.Data
             List<Categories> cats = new List<Categories>();
             cats = await App.Restmanager.GetMenuData();
 
-            
+            int count = await _database.Table<Categories>().CountAsync();
+
+            Categories challenge = new Categories()
+            {
+                Description = "Kan du spise en enorm Bøf hurtigere end dine venner",
+                Id = 999,
+                Name = "Udfordringen"
+
+            };
+
 
             if (await SeeIfDatabaseIsEmpty())
             {
+
+                return await _database.InsertAllAsync(cats);
+
+            }
+            else if(cats.Count >= count && !cats.Contains(challenge))
+            {
+                await _database.DeleteAllAsync<Categories>();
+                cats.Add(challenge);
                 return await _database.InsertAllAsync(cats);
             }
             else
             {
+
                 return await _database.UpdateAllAsync(cats);
             }
 
@@ -68,7 +87,7 @@ namespace KorupMenuPOS.Data
 
         public async Task<bool> SeeIfDatabaseIsEmpty()
         {
-            var result = await _database.Table<Categories>().Where(x => x.Id == 1).CountAsync();
+            var result = await _database.Table<Categories>().Where(x => x.Id >= 1).CountAsync();
             return result == 0;
         }
     }

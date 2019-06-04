@@ -17,11 +17,7 @@ namespace KorupMenuPOS.View
 			InitializeComponent ();
 		}
 
-        private async void Refresh_btn_Clicked(object sender, EventArgs e)
-        {
-            await App.MDatabase.RefreshDatabaseDataAsync();
-            await App.PDatabase.CreateOrUpdateProductDB();
-        }
+
 
         private async void GoToTimer_btn_Clicked(object sender, EventArgs e)
         {

@@ -12,23 +12,74 @@ namespace KorupMenuPOS.ViewModel
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public int LoginCode { get; set; }
+        public string PlaceHolder { get; set; } = "Indtast Pin";
+
+        private string _Pin;
+        public string Pin
+        {
+            get { return _Pin; }
+            set
+            {
+                _Pin = value;
+                OnPropertyChanged(nameof(Pin));
+            }
+        }
+        public bool IsBusy { get; set; }
 
         public PopupAuthenticateViewModel()
         {
-            AddNumberToLoginCommand = new Command<int>(UpdateLoginValue);
+            EnterPinCommand = new Command(LoginAndSend);
         }
 
-        public ICommand AddNumberToLoginCommand;
+        public ICommand EnterPinCommand { get; set; }
 
-        private async void UpdateLoginValue(int number)
+        private async void LoginAndSend()
         {
-            var response = await App.Restmanager.ServerLogin(number);
+            
+            
+                if(Pin.Length == 4)
+                {
+                    int code = int.Parse(Pin);
+                    IsBusy = true;
+                    OnPropertyChanged(nameof(IsBusy));
 
-            if (response.IsSuccessStatusCode)
-            {
+                    var response = await App.Restmanager.ServerLogin(code);
 
-            }
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var order = App.ItemManager.GetOrderItems();
+                        string comment = App.ItemManager.GetComment();
+
+                        if(order != null)
+                        {
+                            PlaceHolder = await App.Restmanager.SendeOrderToPOS(order, comment);
+                            if(PlaceHolder == "Ordren er sendt")
+                            {
+                                //Lave kode der nulstiller lister af produkter og orderitem, samt commet
+                            }
+                        }
+                        else
+                        {
+                            PlaceHolder = "Ingen vare";
+                        }
+
+                    }
+                    else
+                    {
+                        Pin = "";
+                        PlaceHolder = "Forkert Kode";
+                        OnPropertyChanged(nameof(PlaceHolder));
+                   
+                    }
+                }
+
+
+                IsBusy = false;
+
+                OnPropertyChanged(nameof(IsBusy));
+
+
         }
 
         void OnPropertyChanged([CallerMemberName] string propertyName = "")

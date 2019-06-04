@@ -77,29 +77,31 @@
                                         <Label Text="{Binding ProductName}" HorizontalOptions="StartAndExpand">
                                             <Label.GestureRecognizers>
                                                 <TapGestureRecognizer Command="{Binding Path=BindingContext.ShowProductInfoCommand, Source={x:Reference Page}}" CommandParameter="{Binding .}">
-                                                    
+
                                                 </TapGestureRecognizer>
                                             </Label.GestureRecognizers>
                                         </Label>
                                         <!--<Label Text="{Binding Description}" HorizontalOptions="CenterAndExpand"></Label>-->
                                         <!--<Label Text="+" HorizontalOptions="End">
                                            
-                                            --><!--<Label.GestureRecognizers>
+                                            -->
+                                        <!--<Label.GestureRecognizers>
                                                 <TapGestureRecognizer Command="{Binding Path=BindingContext.addProductToOrderList}" CommandParameter="{Binding .}"></TapGestureRecognizer>
-                                            </Label.GestureRecognizers>--><!--
+                                            </Label.GestureRecognizers>-->
+                                        <!--
                                         </Label>-->
                                         <Button Text="-" HorizontalOptions="End" Command="{Binding Path=BindingContext.removeProductFromOrderListCommand, Source={x:Reference Page}}" CommandParameter="{Binding .}"></Button>
                                         <Button Text="+" HorizontalOptions="End" Command="{Binding Path=BindingContext.addProductToOrderList, Source={x:Reference Page}}" CommandParameter="{Binding .}"></Button>
-                                        
+
                                     </StackLayout>
-                                    
+
                                 </ViewCell>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
-                    <Button x:Name="GoToChallengePage_button" Clicked="GoToChallengePage_button_Clicked" Text="Gå til Timeren"></Button>
                 </StackLayout>
-                <StackLayout Grid.Row="1">
+            </Grid>
+                <StackLayout BackgroundColor="Lavender" HeightRequest="500">
                     <Label Text="Kvitering"></Label>
                     <ListView ItemsSource="{Binding OrderList}"  x:Name="OrderList">
                         <ListView.ItemTemplate>
@@ -119,7 +121,7 @@
                     <Label Text="{Binding TotalePrice}"></Label>
                     <Button Text="Se Ordre" x:Name="PlaceOrder_PopUp" Clicked="PlaceOrder_PopUp_Clicked"  Command="{Binding SaveOrderCommand}"></Button>
                 </StackLayout>
-            </Grid>
+            
            
         </StackLayout>
     </ContentPage.Content>

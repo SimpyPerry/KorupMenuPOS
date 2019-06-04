@@ -14,10 +14,25 @@ namespace KorupMenuPOS.ViewModel
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
+        public bool IsBusy { get; set; }
+
         public LoggedInViewModel()
         {
+            RefreshCommand = new Command(RefreshMenu);
         }
 
+        public ICommand RefreshCommand { get; private set; }
+
+        private async void RefreshMenu()
+        {
+            IsBusy = true;
+            OnPropertyChanged(nameof(IsBusy));
+            await App.MDatabase.RefreshDatabaseDataAsync();
+            await App.PDatabase.CreateOrUpdateProductDB();
+            IsBusy = false;
+            OnPropertyChanged(nameof(IsBusy));
+           
+        }
         
         void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {

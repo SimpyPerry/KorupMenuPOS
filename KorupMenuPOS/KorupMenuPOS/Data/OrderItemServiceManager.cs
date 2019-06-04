@@ -50,5 +50,15 @@ namespace KorupMenuPOS.Data
             itemService.AddToOrderFromOrder(id);
         }
 
+        public void AddCommentToOrder(string comment)
+        {
+            itemService.CommentToOrder(comment);
+        }
+
+        public string GetComment()
+        {
+            return itemService.GetTheComment();
+        }
+
     }
 }

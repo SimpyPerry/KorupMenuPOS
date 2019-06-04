@@ -15,5 +15,7 @@ namespace KorupMenuPOS.Data
         void RemoveThisFromOrder(Product removedProduct);
         double CalcultaePrice();
         void AddToOrderFromOrder(int id);
+        void CommentToOrder(string comment);
+        string GetTheComment();
     }
 }

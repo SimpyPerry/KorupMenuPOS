@@ -102,7 +102,7 @@ namespace KorupMenuPOS.Data
 
         }
 
-        public async Task<string> SendListOfOrderToPOS(ObservableCollection<OrderItem> orders)
+        public async Task<string> SendListOfOrderToPOS(ObservableCollection<OrderItem> orders, string  comment)
         {
             //Order theOrder = new Order();
 
@@ -135,7 +135,7 @@ namespace KorupMenuPOS.Data
 
             }
 
-            JObject basket = JObject.Parse(@"{ 'Comment': 'Test kommentar' }" +
+            JObject basket = JObject.Parse(@"{ 'Comment': '"+ comment +"' }" +
                 "'OrderItems':[" + products.ToString() + "]");
 
 

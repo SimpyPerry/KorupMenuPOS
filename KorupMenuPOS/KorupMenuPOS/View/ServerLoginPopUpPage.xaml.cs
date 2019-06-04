@@ -30,21 +30,29 @@ namespace KorupMenuPOS.View
 
             if (entry.Length == 4)
             {
+               
+                IsBusy.IsRunning = true;
                 var result = await App.Restmanager.ServerLogin(pin);
 
                 if (result.IsSuccessStatusCode)
                 {
                     await Navigation.PushAsync(new LoggedPage());
 
+                    await PopupNavigation.Instance.PopAsync();
                     
                 }
                 else
                 {
+                    
                     PincodeEntry.Text = null;
                     PincodeEntry.Placeholder = "Forkert kode";
                     await Navigation.PushAsync(new LoggedPage());
+                    await PopupNavigation.Instance.PopAsync();
                 }
             }
+
+            IsBusy.IsRunning = false;
+           
         }
 
         private async void Goback_btn_Clicked(object sender, EventArgs e)

@@ -4,15 +4,19 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:KorupMenuPOS"
     x:Class="KorupMenuPOS.View.ServerLoginPopUpPage">
-
+    <AbsoluteLayout VerticalOptions="Center" HorizontalOptions="Center">
     <StackLayout VerticalOptions="Center" HorizontalOptions="Center" BackgroundColor="White">
-        <Entry x:Name="PincodeEntry" Placeholder="Indtast kode" Keyboard="Numeric" Completed="PincodeEntry_Completed">
-            <Entry.Behaviors>
-                <local:CustomEntryBehavier>
+            <Entry x:Name="PincodeEntry" Placeholder="Indtast kode" Keyboard="Numeric" Completed="PincodeEntry_Completed">
+                <Entry.Behaviors>
+                    <local:CustomEntryBehavier>
 
-                </local:CustomEntryBehavier>
-            </Entry.Behaviors>
-        </Entry>
-        <Button x:Name="Goback_btn" Text="Luk" Clicked="Goback_btn_Clicked"></Button>
+                    </local:CustomEntryBehavier>
+                </Entry.Behaviors>
+            </Entry>
+            <ActivityIndicator x:Name="IsBusy">
+
+            </ActivityIndicator>
+            <Button x:Name="Goback_btn" Text="Luk" Clicked="Goback_btn_Clicked"></Button>
     </StackLayout>
+    </AbsoluteLayout>
 </pages:PopupPage>

@@ -21,15 +21,8 @@ namespace KorupMenuPOS.View
 
 		}
 
-        private void GoToChallengePage_button_Clicked(object sender, EventArgs e)
-        {
-            Navigation.PushAsync(new TimerView());
-        }
-
         private void PlaceOrder_PopUp_Clicked(object sender, EventArgs e)
         {
-            
-
             Navigation.PushAsync(new OrderPage());
             //PopupNavigation.Instance.PushAsync(new PopupAuthenticate());
         }

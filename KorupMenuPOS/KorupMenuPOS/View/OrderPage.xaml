@@ -9,26 +9,70 @@
             
         </ViewModel:OrderViewModel>
     </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Name="MenuStyles" TargetType="Label">
+                <Setter Property="TextColor" Value="Black"></Setter>
+                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+                <Setter Property="FontSize" Value="28"></Setter>
+            </Style>
+            <Style x:Name="GridStyle" TargetType="Grid">
+                <Setter Property="BackgroundColor" Value="Lavender"></Setter>
+            </Style>
+            <Style x:Name="ListViewStyle" TargetType="ListView">
+
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
     <ContentPage.Content>
-        <StackLayout>
+        <StackLayout BackgroundColor="Lavender">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"></ColumnDefinition>
+                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Label Text="Ret" Grid.Column="0"></Label>
+                <Label Text="Pris" Grid.Column="1" ></Label>
+                <Label Text="Antal" Grid.Column="2" ></Label>
+                <Label Text="Mindre" Grid.Column="3" ></Label>
+                <Label Text="Mere" Grid.Column="4"></Label>
+            </Grid>
             <ListView ItemsSource="{Binding OrderItems}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
                             <ViewCell.View>
-                                <StackLayout Orientation="Horizontal">
-                                    <Label Text="{Binding ProdcutName}"></Label>
-                                    <Label Text="{Binding Amount}"></Label>
-                                    <Label Text="{Binding Price}"></Label>
-                                    <Button Text="-" Command="{Binding Path=BindingContext.RemoveCommand, Source={x:Reference Page2}}" CommandParameter="{Binding .}"></Button>
-                                    <Button Text="+" Command="{Binding Path=BindingContext.AddToOrderCommand, Source={x:Reference Page2}}" CommandParameter="{Binding .}"></Button>
-                                </StackLayout>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="3*"></ColumnDefinition>
+                                        <ColumnDefinition Width="2*"></ColumnDefinition>
+                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Label Grid.Column="0" Text="{Binding ProdcutName}" VerticalOptions="StartAndExpand"></Label>
+                                    <Label Grid.Column="1" Text="{Binding Price}" VerticalOptions="Center"></Label>
+                                    <Label Grid.Column="2" Text="{Binding Amount}" VerticalOptions="CenterAndExpand"></Label>
+                                    <Button Grid.Column="3" Text="-" VerticalOptions="End" Command="{Binding Path=BindingContext.RemoveCommand, Source={x:Reference Page2}}" CommandParameter="{Binding .}"></Button>
+                                    <Button Grid.Column="4" Text="+" VerticalOptions="End" Command="{Binding Path=BindingContext.AddToOrderCommand, Source={x:Reference Page2}}" CommandParameter="{Binding .}"></Button>
+                                </Grid>
+
                             </ViewCell.View>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <Label Text="{Binding TotalPrice}"></Label>
+            <Entry Placeholder="Har du noget du vil tilføje omkring en ordre eller andet?" Text="{Binding Comment, Mode=TwoWay}" Keyboard="Chat"></Entry>
+            <StackLayout Orientation="Horizontal">
+                
+                <Label Text="Totale beløb:" HorizontalOptions="CenterAndExpand"></Label>
+                <Label Text="{Binding TotalPrice}" HorizontalOptions="StartAndExpand"></Label>
+            </StackLayout>
             <Button Text="Send Ordre" x:Name="Send_order_btn" Clicked="Send_order_btn_Clicked"></Button>
         </StackLayout>
     </ContentPage.Content>
