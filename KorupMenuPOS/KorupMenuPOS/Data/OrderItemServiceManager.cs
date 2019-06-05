@@ -60,5 +60,10 @@ namespace KorupMenuPOS.Data
             return itemService.GetTheComment();
         }
 
+        public void ResetOrder()
+        {
+            itemService.EmptyOrder();
+        }
+
     }
 }

@@ -12,15 +12,15 @@
         <StackLayout HorizontalOptions="Center">
             
             <Label HorizontalOptions="Center" Text="{Binding CHTimer, Mode=OneWay}" FontSize="72"></Label>
-            <Entry Placeholder="Navn" HorizontalOptions="Fill" FontSize="50" Text="{Binding NameEntry}" ></Entry>
+            <Entry Placeholder="{Binding NamePlaceholder}" HorizontalOptions="Fill" FontSize="50" Text="{Binding NameEntry, Mode=TwoWay}" ></Entry>
             
             <Grid>
                 <Button Text="Start" Grid.Column="0" Command="{Binding Path=StartTimerCommand}" IsEnabled="{Binding NameIsTyped}"></Button>
-                <Button Text="Stop" Grid.Column="1" Command="{Binding StopTimerCommand}" IsEnabled="{Binding TimerIsOff}"></Button>
+                <Button Text="Stop" Grid.Column="1" Command="{Binding StopTimerCommand}" IsEnabled="true"></Button>
                 <Button Text="Reset" Grid.Column="2" Command="{Binding ResetTimerCommand}" IsEnabled="{Binding TimerIsOff}"></Button>
             </Grid>
-            <Button Text="Send Tid" Command="{Binding SendTimeToLeaderBoardCommand}"></Button>
-            <Button Text="Se Highscore listen" x:Name="GoToLeaderBoard_Button" Clicked="GoToLeaderBoard_Button_Clicked"></Button>
+            <Button Text="Send Tid" Command="{Binding SendTimeToLeaderBoardCommand}" IsEnabled="{Binding TimerIsOff}"></Button>
+            <Button Text="Se Highscore listen" x:Name="GoToLeaderBoard_Button" Clicked="GoToLeaderBoard_Button_Clicked" IsEnabled="{Binding TimerIsOff}"></Button>
             
         </StackLayout>
     </ContentPage.Content>

@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:ViewModel="clr-namespace:KorupMenuPOS.ViewModel"
+             xmlns:Local="clr-namespace:KorupMenuPOS"
              x:Class="KorupMenuPOS.View.OrderPage"
              x:Name="Page2">
     <ContentPage.BindingContext>
@@ -27,7 +28,7 @@
 
     <ContentPage.Content>
         <StackLayout BackgroundColor="Lavender">
-            <Grid>
+            <Grid HeightRequest="50">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="3*"></ColumnDefinition>
                     <ColumnDefinition Width="2*"></ColumnDefinition>
@@ -67,7 +68,14 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <Entry Placeholder="Har du noget du vil tilføje omkring en ordre eller andet?" Text="{Binding Comment, Mode=TwoWay}" Keyboard="Chat"></Entry>
+            <Entry Placeholder="Har du noget du vil tilføje omkring en ordre eller andet?" Text="{Binding Comment, Mode=TwoWay}" Keyboard="Chat"
+                   WidthRequest="200" HeightRequest="200" BackgroundColor="White">
+                <Entry.Behaviors>
+                    <Local:CommentEntryBehavior>
+                        
+                    </Local:CommentEntryBehavior>
+                </Entry.Behaviors>
+            </Entry>
             <StackLayout Orientation="Horizontal">
                 
                 <Label Text="Totale beløb:" HorizontalOptions="CenterAndExpand"></Label>

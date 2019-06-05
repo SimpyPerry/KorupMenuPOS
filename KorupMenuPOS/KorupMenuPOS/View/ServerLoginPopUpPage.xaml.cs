@@ -19,18 +19,16 @@ namespace KorupMenuPOS.View
 			InitializeComponent ();
 		}
 
-      
-
         private async void PincodeEntry_Completed(object sender, EventArgs e)
         {
             string entry = PincodeEntry.Text;
 
-            var pin = int.Parse(entry);
-
 
             if (entry.Length == 4)
             {
-               
+
+                var pin = int.Parse(entry);
+
                 IsBusy.IsRunning = true;
                 var result = await App.Restmanager.ServerLogin(pin);
 
@@ -50,9 +48,13 @@ namespace KorupMenuPOS.View
                     await PopupNavigation.Instance.PopAsync();
                 }
             }
+            else
+            {
+                
+            }
 
             IsBusy.IsRunning = false;
-           
+
         }
 
         private async void Goback_btn_Clicked(object sender, EventArgs e)

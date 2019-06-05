@@ -16,16 +16,37 @@ namespace KorupMenuPOS.ViewModel
         public event PropertyChangedEventHandler PropertyChanged;
         
         public ObservableCollection<OrderItem> OrderItems { get; set; }
-        public double TotalPrice { get; set; }
+        public double totalPrice;
+        public double TotalPrice
+        {
+            get { return totalPrice; }
+            set
+            {
+                totalPrice = value;
+                OnPropertyChanged(nameof(TotalPrice));
+            }
+        }
         public bool IsBusy { get; set; } = false;
-        public string Comment { get; set; } = "";
+        
+        private string _comment { get; set; }
+        public string Comment
+        {
+            get { return _comment; }
+            set
+            {
+                _comment = value;
+                App.ItemManager.AddCommentToOrder(_comment);
+                
+            }
+        }
+        
         public OrderViewModel()
         {
 
             OrderItems = App.ItemManager.GetOrderItems();
             TotalPrice = App.ItemManager.GetTotalePrice();
 
-            OnPropertyChanged(nameof(TotalPrice));
+            
             OnPropertyChanged(nameof(OrderItems));
 
             //Hvis knappen er inde i et list view, skal du vide reference til commanden ellers virker det ikke
@@ -45,7 +66,7 @@ namespace KorupMenuPOS.ViewModel
             OrderItems = App.ItemManager.GetOrderItems();
             TotalPrice = App.ItemManager.GetTotalePrice();
 
-            OnPropertyChanged(nameof(TotalPrice));
+           
             OnPropertyChanged(nameof(OrderItems));
         }
 
@@ -54,7 +75,7 @@ namespace KorupMenuPOS.ViewModel
             App.ItemManager.AddOneItemToOrder(item.ProductId);
             TotalPrice = App.ItemManager.GetTotalePrice();
 
-            OnPropertyChanged(nameof(TotalPrice));
+            
         }
 
 

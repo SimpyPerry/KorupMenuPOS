@@ -45,6 +45,7 @@ namespace KorupMenuPOS.ViewModel
 
                     var response = await App.Restmanager.ServerLogin(code);
 
+                    
 
                     if (response.IsSuccessStatusCode)
                     {
@@ -57,7 +58,17 @@ namespace KorupMenuPOS.ViewModel
                             if(PlaceHolder == "Ordren er sendt")
                             {
                                 //Lave kode der nulstiller lister af produkter og orderitem, samt commet
+                                //sørg for koden også er tilgængelig i instillinger for tjener
+                                
+                                App.ItemManager.ResetOrder();
+                                App.ItemManager.GetTotalePrice();
+                                
+                                //husk at tilføje max længde til kommentar
+                                //ændre på udseende af entry comment
+                                
                             }
+
+                           
                         }
                         else
                         {
@@ -69,6 +80,8 @@ namespace KorupMenuPOS.ViewModel
                     {
                         Pin = "";
                         PlaceHolder = "Forkert Kode";
+                        App.ItemManager.ResetOrder();
+                        App.ItemManager.GetTotalePrice();
                         OnPropertyChanged(nameof(PlaceHolder));
                    
                     }

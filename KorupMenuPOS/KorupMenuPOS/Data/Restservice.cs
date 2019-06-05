@@ -124,19 +124,19 @@ namespace KorupMenuPOS.Data
 
 
 
-            JArray products = new JArray();
+            //JArray products = new JArray();
 
 
-            foreach (OrderItem o in orders)
-            {
-                products.Add(JObject.Parse(
-                    @"{""ProductId"":""" + o.ProductId + "\", " + @"""Amount"":""" + o.Amount + @"""}"));
+            //foreach (OrderItem o in orders)
+            //{
+            //    products.Add(JObject.Parse(
+            //        @"{""ProductId"":""" + o.ProductId + "\", " + @"""Amount"":""" + o.Amount + @"""}"));
 
 
-            }
+            //}
 
-            JObject basket = JObject.Parse(@"{ 'Comment': '"+ comment +"' }" +
-                "'OrderItems':[" + products.ToString() + "]");
+            //JObject basket = JObject.Parse(@"{ 'Comment': '"+ comment +"' }" +
+            //    "'OrderItems':[" + products.ToString() + "]");
 
 
 
@@ -170,28 +170,23 @@ namespace KorupMenuPOS.Data
 
 
 
-            //JArray prod = new JArray();
+            JArray prod = new JArray();
 
-            ////foreach(Order o in orders)
-            ////{
-            ////    prod.Add(new JProperty())
-            ////};
+            foreach (OrderItem o in orders)
+            {
+                prod.Add(new JObject(
+                    new JProperty("ProductId", o.ProductId),
+                    new JProperty("Amount", o.Amount)
+                    ));
 
-            //foreach (Order o in orders)
-            //{
-            //    prod.Add(new JObject(
-            //        new JProperty("ProductId", o.ProductId),
-            //        new JProperty("Amount", o.Amount)
-            //        ));
-
-            //}
+            }
 
 
-            //    JObject basket = new JObject
-            //{
-            //    new JProperty ("Comment", "Værdi der bliver lavet senere"),
-            //    new JProperty ("OrderItems", prod)
-            //};
+            JObject basket = new JObject
+            {
+                new JProperty ("Comment", comment),
+                new JProperty ("OrderItems", prod)
+            };
 
 
             var json = JsonConvert.SerializeObject(basket);
@@ -199,7 +194,7 @@ namespace KorupMenuPOS.Data
             //Kan ikke sende et array uden index 
             var content = new StringContent(json, Encoding.UTF8, "aplication/json");
 
-
+            
             var response = await _httpClient.PostAsync(OrdersEndPoint, content);
 
             if (response.IsSuccessStatusCode)

@@ -17,7 +17,7 @@ namespace KorupMenuPOS.ViewModel
     public class MenuPageViewModel : INotifyPropertyChanged
     {  
         public event PropertyChangedEventHandler PropertyChanged;
-        public List<Categories> MenuEmner { get; set; }
+        public List<Categories> GetCategories { get; set; }
         public List<Product> Products { get; set; }
         private Product _chosenProduct { get; set; }
         public Product ChosenProduct { get; set; }
@@ -94,9 +94,9 @@ namespace KorupMenuPOS.ViewModel
         {
             //MenuEmner = await App.Restmanager.GetMenuData();
 
-            MenuEmner = await App.MDatabase.GetMenuData();
+            GetCategories = await App.MDatabase.GetMenuData();
 
-            OnPropertyChanged(nameof(MenuEmner));
+            OnPropertyChanged(nameof(GetCategories));
         }
 
         private async void GetProductsToList(Categories cate)

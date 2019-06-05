@@ -17,5 +17,6 @@ namespace KorupMenuPOS.Data
         void AddToOrderFromOrder(int id);
         void CommentToOrder(string comment);
         string GetTheComment();
+        void EmptyOrder();
     }
 }

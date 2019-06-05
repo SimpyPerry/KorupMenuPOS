@@ -11,28 +11,34 @@ using System.Timers;
 using System.Windows.Input;
 using Xamarin.Forms;
 
+
 namespace KorupMenuPOS.ViewModel
 {
     public class TimerViewModel : INotifyPropertyChanged
     {
-        string chtimer = "00:00:00";
 
-        string entry = string.Empty;
-        string nameEntry = string.Empty;
+
+        public string NameEntry { get; set; }
+        public string NamePlaceholder { get; set; } = "Navn";
+
 
         System.Timers.Timer timer;
         int hour, mintues, seconds;
 
-        bool timerIsOff = true;
+        private bool timerIsOff;
+        public bool TimerIsOff
+        {
+            get { return timerIsOff; }
+            set
+            {
+                timerIsOff = value;
+                OnPropertyChanged(nameof(TimerIsOff));
+            }
+        }
 
-        bool nameIsTyped = true;
-
-        
-        
         public TimerViewModel()
         {
             
-
 
             timer = new System.Timers.Timer();
 
@@ -40,14 +46,12 @@ namespace KorupMenuPOS.ViewModel
 
             timer.Elapsed += OntimeEvent;
 
-            
-
             StartTimerCommand = new Command(timer.Start);
-            StopTimerCommand = new Command(timer.Stop);
+            StopTimerCommand = new Command(StopTimer);
+            
             ResetTimerCommand = new Command(ResetTimer);
             SendTimeToLeaderBoardCommand = new Command(AddToLeaderBoard);
             
-
         }
 
         public ICommand StartTimerCommand { private set; get; }
@@ -56,21 +60,23 @@ namespace KorupMenuPOS.ViewModel
         public ICommand SendTimeToLeaderBoardCommand { private set; get; }
        
 
-      
-      
-        
         void ResetTimer()
         {
             hour = 0;
             mintues = 0;
             seconds = 0;
             chtimer = "00:00:00";
-            nameEntry = "";
+            NamePlaceholder = "Navn";
+            NameEntry = null;
             OnPropertyChanged(nameof(CHTimer));
             OnPropertyChanged(nameof(NameEntry));
+            OnPropertyChanged(nameof(NamePlaceholder));
         }
         private void OntimeEvent(object sender, ElapsedEventArgs e)
         {
+            TimerIsOff = false;
+            
+
             seconds++;
             if (seconds == 60)
             {
@@ -84,29 +90,19 @@ namespace KorupMenuPOS.ViewModel
             }
             chtimer = string.Format($"{hour.ToString().PadLeft(2, '0')}:{mintues.ToString().PadLeft(2, '0')}:{seconds.ToString().PadLeft(2, '0')}");
             OnPropertyChanged(nameof(CHTimer));
+           
         }
 
-        public bool TimerIsOff
+        private void StopTimer()
         {
-            get { return timerIsOff; }
+            timer.Stop();
+            TimerIsOff = true;
         }
 
-        public bool NameIsTyped
-        {
-            get { return nameIsTyped; }
-        }
 
-        public string NameEntry
-        {
-            get { return nameEntry; }
-            set {
-                nameEntry = value;
-               
-            }       
-                
-        }
 
         //denne er den der bliver databindet til, derfor public
+        string chtimer = "00:00:00";
         public string CHTimer
         {
             //Denne gør at når der sker ændringer i chtimer værdien
@@ -122,14 +118,20 @@ namespace KorupMenuPOS.ViewModel
         async void AddToLeaderBoard()
         {
             string challengeTime = chtimer;
-            string challengerName = nameEntry;
 
+            if (NameEntry != null || NameEntry != "" && seconds > 0)
+            {
 
-            await App.Database.AddTimeToLeaderBoard(challengeTime, challengerName);
+                await App.Database.AddTimeToLeaderBoard(challengeTime, NameEntry);
+            }
+            else
+            {
+                NameEntry = null;
+                NamePlaceholder = "Prøv igen";
+            }
+
            
         }
-
-       
 
 
         public event PropertyChangedEventHandler PropertyChanged;

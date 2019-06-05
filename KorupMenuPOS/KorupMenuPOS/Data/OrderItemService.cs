@@ -15,6 +15,7 @@ namespace KorupMenuPOS.Data
 
         private ObservableCollection<OrderItem> items;
         private ObservableCollection<Product> products;
+        
 
         private string message;
         private double _total;
@@ -35,6 +36,7 @@ namespace KorupMenuPOS.Data
             products = new ObservableCollection<Product>();
             total = new double();
             message = "";
+           
             
         }
 
@@ -187,6 +189,14 @@ namespace KorupMenuPOS.Data
         public string GetTheComment()
         {
             return message;
+        }
+
+        public void EmptyOrder()
+        {
+            products.Clear();
+            items.Clear();
+            message = "";
+            
         }
     }
 }
