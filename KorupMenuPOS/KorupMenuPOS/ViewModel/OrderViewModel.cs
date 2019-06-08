@@ -46,7 +46,11 @@ namespace KorupMenuPOS.ViewModel
             OrderItems = App.ItemManager.GetOrderItems();
             TotalPrice = App.ItemManager.GetTotalePrice();
 
-            
+            MessagingCenter.Subscribe<PopupAuthenticateViewModel>(this, "price", (sender) => {
+                UpdatePrice();
+            });
+
+
             OnPropertyChanged(nameof(OrderItems));
 
             //Hvis knappen er inde i et list view, skal du vide reference til commanden ellers virker det ikke
@@ -64,10 +68,15 @@ namespace KorupMenuPOS.ViewModel
             App.ItemManager.RemovedOneItemFromOrder(item.ProductId);
 
             OrderItems = App.ItemManager.GetOrderItems();
-            TotalPrice = App.ItemManager.GetTotalePrice();
-
+            UpdatePrice();
            
             OnPropertyChanged(nameof(OrderItems));
+        }
+
+        private void UpdatePrice()
+        {
+            TotalPrice = App.ItemManager.GetTotalePrice();
+            MessagingCenter.Send(this, "update");
         }
 
         private void AddOneItemOrder(OrderItem item)

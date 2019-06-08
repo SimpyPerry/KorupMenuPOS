@@ -57,7 +57,11 @@ namespace KorupMenuPOS.ViewModel
         {
             
             GetMenuData();
-            
+
+            MessagingCenter.Subscribe<OrderViewModel>(this, "update", (sender) => {
+                UpdatePrice();
+            });
+
             addProductToOrderList = new Command<Product>(AddToOrder);
             removeProductFromOrderListCommand = new Command<Product>(RemoveFromOrder);
             RefreshMenuCommand = new Command(Refresh);
@@ -78,9 +82,15 @@ namespace KorupMenuPOS.ViewModel
             
             await App.MDatabase.RefreshDatabaseDataAsync();
             await App.PDatabase.CreateOrUpdateProductDB();
-
+            
             GetMenuData();
             
+        }
+
+        private void UpdatePrice()
+        {
+            TotalePrice = App.ItemManager.GetTotalePrice();
+            OnPropertyChanged(nameof(TotalePrice));
         }
 
         private void ShowProductInfo(Product product)

@@ -65,7 +65,7 @@ namespace KorupMenuPOS.ViewModel
                                 
                                 //husk at tilføje max længde til kommentar
                                 //ændre på udseende af entry comment
-                                
+
                             }
 
                            
@@ -83,8 +83,9 @@ namespace KorupMenuPOS.ViewModel
                         App.ItemManager.ResetOrder();
                         App.ItemManager.GetTotalePrice();
                         OnPropertyChanged(nameof(PlaceHolder));
-                   
-                    }
+                        MessagingCenter.Send(this, "price");
+
+                }
                 }
 
 
