@@ -26,7 +26,7 @@ namespace KorupMenuPOS.View
 
         private async void GoToLeaderBoard_btn_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new LeaderBoardPage());
+            await Navigation.PushAsync(new LoggedinLeaderBoardPage());
         }
 
         private void Exit_App_btn_Clicked(object sender, EventArgs e)

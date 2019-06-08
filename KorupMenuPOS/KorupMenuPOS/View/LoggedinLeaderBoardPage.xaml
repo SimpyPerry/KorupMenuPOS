@@ -2,11 +2,12 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewmodel="clr-namespace:KorupMenuPOS.ViewModel"
-             x:Class="KorupMenuPOS.View.LeaderBoardPage">
+             x:Class="KorupMenuPOS.View.LoggedinLeaderBoardPage"
+             x:Name="LogLeaderBoardPage">
     <ContentPage.BindingContext>
-        <viewmodel:LeaderBoardViewModel>
+        <viewmodel:LoggedinLeaderboardViewModel>
             
-        </viewmodel:LeaderBoardViewModel>
+        </viewmodel:LoggedinLeaderboardViewModel>
     </ContentPage.BindingContext>
     <ContentPage.Content>
         <StackLayout BackgroundColor="Lavender">
@@ -20,17 +21,14 @@
                                         <Label VerticalOptions="Start" FontSize="32" Text="{Binding HighScoreTime}"></Label>
                                         <Label VerticalOptions="Center" FontSize="32" Text="{Binding ChallengerName}"></Label>
                                         <Label VerticalOptions="End" FontSize="32" Text="{Binding ChallengeDate}"></Label>
+                                        <Button Text="Slet" Command="{Binding Path=BindingContext.DeleteTimeCommand, Source={x:Reference LogLeaderBoardPage}}" CommandParameter="{Binding .}" VerticalOptions="End"></Button>
                                     </StackLayout>
                                 </ViewCell>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
-                    <StackLayout HeightRequest="500" VerticalOptions="Center">
-                        <Label FontSize="24"  VerticalOptions="Center" Text="Velkommen til highscore listen for udfordringen!!"></Label>
-                        <Label FontSize="24" VerticalOptions="Center" Text="Udfordringen er en kæmpe bøf på helt halvt kilo"></Label>
-                        <Label FontSize="24" VerticalOptions="Center" Text="Den er en udfordring i sig selv at spise, men kan du også gøre det hurtigere end alle andre?"></Label>
-                    </StackLayout>
-                    <Button Text="Bestil Udfordringen!" Command="{Binding ChallengeToOrderCommand}"></Button>
+                    <Button Text="Ryd hele listen"></Button>
+                   
                 </StackLayout>
             </Grid>
         </StackLayout>

@@ -17,8 +17,8 @@ namespace KorupMenuPOS.ViewModel
     public class MenuPageViewModel : INotifyPropertyChanged
     {  
         public event PropertyChangedEventHandler PropertyChanged;
-        public List<Categories> GetCategories { get; set; }
-        public List<Product> Products { get; set; }
+        public List<Categories> MenuCategories { get; set; }
+        public List<Product> MenuProducts { get; set; }
         private Product _chosenProduct { get; set; }
         public Product ChosenProduct { get; set; }
         //{
@@ -85,74 +85,59 @@ namespace KorupMenuPOS.ViewModel
 
         private void ShowProductInfo(Product product)
         {
-            string message = $"Beskrivelse: {product.Description} {Environment.NewLine}Prise: {product.SellingPrice} {Environment.NewLine}";
+            string message = $"Beskrivelse: {product.Description} {Environment.NewLine}Pris: {product.Price} {Environment.NewLine}";
 
-            App.Current.MainPage.DisplayAlert(product.ProductName,message, "Luk");
+            App.Current.MainPage.DisplayAlert(product.Name,message, "Luk");
         }
 
         private async void GetMenuData()
         {
             //MenuEmner = await App.Restmanager.GetMenuData();
 
-            GetCategories = await App.MDatabase.GetMenuData();
+            MenuCategories = await App.MDatabase.GetMenuData();
 
-            OnPropertyChanged(nameof(GetCategories));
+            OnPropertyChanged(nameof(MenuCategories));
         }
 
         private async void GetProductsToList(Categories cate)
         {
 
-              Products = new List<Product>();
+              MenuProducts = new List<Product>();
             
 
-              Products = await App.PDatabase.GetProductsForCategory(cate);
+              MenuProducts = await App.PDatabase.GetProductsForCategory(cate);
 
                 //cate.Products;
 
-            if(Products == null)
+            if(MenuProducts == null)
             {
                 List<Product> listEmpty = new List<Product>();
 
                 Product product = new Product
                 {
                     Description = "Listen er tom",
-                    ProductName = "Tom",
-                    ProductId = 1,
-                    ProductCode = null,
-                    Barcode = null,
-                    ProductImageUrl = null,
-                    UnitOfMeasureId = 2,
-                    BuyingPrice = 49.95,
-                    SellingPrice = 74.95,
-                    BranchId = 1,
-                    CurrencyId = 1
+                    Name = "Tom"
+                    
+
                     
                 };
 
                 Product product2 = new Product
                 {
                     Description = "Listen er tom2",
-                    ProductName = "Tom2",
-                    ProductId = 2,
-                    ProductCode = null,
-                    Barcode = null,
-                    ProductImageUrl = null,
-                    UnitOfMeasureId = 3,
-                    BuyingPrice = 69.95,
-                    SellingPrice = 104.95,
-                    BranchId = 2,
-                    CurrencyId = 1
+                    Name = "Tom2"
+              
                 };
 
                 listEmpty.Add(product);
                 listEmpty.Add(product2);
 
-                Products = listEmpty;
+                MenuProducts = listEmpty;
             }
 
             
 
-            OnPropertyChanged(nameof(Products));
+            OnPropertyChanged(nameof(MenuProducts));
         }
 
         //ObservableCollection<Product> p = new ObservableCollection<Product>();

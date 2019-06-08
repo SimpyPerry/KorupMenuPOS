@@ -38,6 +38,9 @@ namespace KorupMenuPOS.View
             return true;
         }
 
-        
+        private void GoToChallenge_Label_Clicked(object sender, EventArgs e)
+        {
+            Navigation.PushAsync(new LeaderBoardPage());
+        }
     }
 }

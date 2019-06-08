@@ -26,7 +26,10 @@
     </ContentPage.Resources>
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Tjener Login" x:Name="ServerLogin" Clicked="ServerLogin_Clicked" Command="{Binding RefreshMenuCommand}">
+        <ToolbarItem Text="Udfordringen!!" x:Name="GoToChallenge_Label" Clicked="GoToChallenge_Label_Clicked">
+           
+        </ToolbarItem>
+        <ToolbarItem Text="Tjener Login" x:Name="ServerLogin" Clicked="ServerLogin_Clicked">
             
         </ToolbarItem>
     </ContentPage.ToolbarItems>
@@ -44,7 +47,7 @@
                 </Grid.ColumnDefinitions>
                 <StackLayout Grid.Row="0" Grid.Column="0">
                     <Label Text="Kategorier"></Label>
-                    <ListView ItemsSource="{Binding MenuEmner}" SelectedItem="{Binding ChosenCategory}">
+                    <ListView RowHeight="55" ItemsSource="{Binding MenuCategories}" SelectedItem="{Binding ChosenCategory}">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
@@ -69,12 +72,13 @@
                 
                 <StackLayout Grid.Row="0" Grid.Column="1">
                     <Label Text="Retter"></Label>
-                    <ListView ItemsSource="{Binding Products}">
+                    <ListView RowHeight="55" ItemsSource="{Binding MenuProducts}">
                         <ListView.ItemTemplate>
+                            
                             <DataTemplate>
                                 <ViewCell>
                                     <StackLayout Orientation="Horizontal">
-                                        <Label Text="{Binding ProductName}" HorizontalOptions="StartAndExpand">
+                                        <Label Text="{Binding Name}" HorizontalOptions="StartAndExpand" FontSize="22">
                                             <Label.GestureRecognizers>
                                                 <TapGestureRecognizer Command="{Binding Path=BindingContext.ShowProductInfoCommand, Source={x:Reference Page}}" CommandParameter="{Binding .}">
 
@@ -102,7 +106,7 @@
                 </StackLayout>
             </Grid>
                 <StackLayout BackgroundColor="Lavender" HeightRequest="500">
-                    <Label Text="Kvitering"></Label>
+                    <Label VerticalOptions="Start" Text="Kurv:"></Label>
                     <ListView ItemsSource="{Binding OrderList}"  x:Name="OrderList">
                         <ListView.ItemTemplate>
                             <DataTemplate>

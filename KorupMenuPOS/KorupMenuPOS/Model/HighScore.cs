@@ -8,6 +8,7 @@ namespace KorupMenuPOS.Model
     {
         public string HighScoreTime { get; set; }
         public string ChallengerName { get; set; }
-        public DateTime ChallengeDate { get; set; }
+        public string ChallengeDate { get; set; }
+        public int ChallengenPersonId { get; set; }
     }
 }

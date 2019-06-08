@@ -46,7 +46,7 @@ namespace KorupMenuPOS
             {
                 if(productDatabase == null)
                 {
-                    productDatabase = new ProductDatabase (Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Products.db3"));
+                    productDatabase = new ProductDatabase (Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "ProductsForMenu.db3"));
                 }
                 return productDatabase;
             }

@@ -29,21 +29,21 @@ namespace KorupMenuPOS.Data
             Product challenge = new Product()
             {
                
-                      ProductName = "Udfordringen!!!",
-                       ProductId = 999,
+                      Name = "Udfordringen!!!",
+                       Id = 999,
                        Description = "Er du mand eller kvinde nok til at spise denne enorme bøf, og kan du gøre det hurtigere end dine venner?",
-                       SellingPrice = 129.95,
-                       CategoryID = 999
+                       Price = 129.95,
+                       CategoryId = 999
 
             };
 
-            
+
 
             if (await SeeIfPDatabaseIsEmpty())
             {
                 return await _database.InsertAllAsync(Products);
             }
-            else if(Products.Count >= count && !Products.Contains(challenge))
+            else if (Products.Count >= count && !Products.Contains(challenge))
             {
                 await _database.DeleteAllAsync<Product>();
                 Products.Add(challenge);
@@ -59,12 +59,12 @@ namespace KorupMenuPOS.Data
         {
 
 
-            return _database.Table<Product>().Where(p => p.CategoryID == cate.Id).ToListAsync();
+            return _database.Table<Product>().Where(p => p.CategoryId == cate.Id).ToListAsync();
         }
 
         public async Task<bool> SeeIfPDatabaseIsEmpty()
         {
-            var result = await _database.Table<Product>().Where(x => x.CategoryID <= 1).CountAsync();
+            var result = await _database.Table<Product>().Where(x => x.Id <= 1).CountAsync();
             return result == 0;
         }
     }

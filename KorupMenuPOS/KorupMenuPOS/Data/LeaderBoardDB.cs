@@ -11,7 +11,7 @@ namespace KorupMenuPOS.Data
     public class LeaderBoardDB
     {
         readonly SQLiteAsyncConnection _database;
-        private IEnumerable<ChallengePerson> list;
+       
 
         public LeaderBoardDB(string dbPath)
         {
@@ -63,6 +63,12 @@ namespace KorupMenuPOS.Data
 
             //return people;
             
+        }
+
+        public async void DeleteThisScore(int challengenPersonId)
+        {
+            ChallengePerson cp = await _database.Table<ChallengePerson>().Where(x => x.PersonID == challengenPersonId).FirstOrDefaultAsync();
+            await _database.DeleteAsync(cp);
         }
     }
 }

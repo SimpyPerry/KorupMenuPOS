@@ -55,7 +55,7 @@ namespace KorupMenuPOS.Data
 
             List<Product> addedProductList = new List<Product>();
 
-            addedProductList = products.Where(x => x.ProductId == addedProduct.ProductId).ToList();
+            addedProductList = products.Where(x => x.Id == addedProduct.Id).ToList();
 
             int amount = 0;
 
@@ -64,15 +64,15 @@ namespace KorupMenuPOS.Data
                 amount++;
             }
 
-            var item = items.Where(x => x.ProductId == addedProduct.ProductId).FirstOrDefault();
+            var item = items.Where(x => x.ProductId == addedProduct.Id).FirstOrDefault();
 
             if(item == null)
             {
                 OrderItem o = new OrderItem()
                 {
-                    ProductId = addedProduct.ProductId,
-                    Price = addedProduct.SellingPrice,
-                    ProdcutName = addedProduct.ProductName,
+                    ProductId = addedProduct.Id,
+                    Price = addedProduct.Price,
+                    ProdcutName = addedProduct.Name,
                     Amount = 1
 
                 };
@@ -81,19 +81,20 @@ namespace KorupMenuPOS.Data
             }
             else
             {
-                items.Where(x => x.ProductId == addedProduct.ProductId).FirstOrDefault().Amount = amount;
+                items.Where(x => x.ProductId == addedProduct.Id).FirstOrDefault().Amount = amount;
             }
         }
 
         public void AddToOrderFromOrder(int id)
         {
             var item = items.Where(x => x.ProductId == id).FirstOrDefault();
-            var product = products.Where(x => x.ProductId == id).FirstOrDefault();
+            var product = products.Where(x => x.Id == id).FirstOrDefault();
 
             products.Add(product);
 
             item.Amount++;
         }
+
 
         public double CalcultaePrice()
         {
@@ -127,7 +128,7 @@ namespace KorupMenuPOS.Data
         public void RemovedFromOrder(int id)
         {
             var item = items.Where(x => x.ProductId == id).FirstOrDefault();
-            var product = products.Where(x => x.ProductId == id).FirstOrDefault();
+            var product = products.Where(x => x.Id == id).FirstOrDefault();
 
             products.Remove(product);
 
@@ -144,16 +145,16 @@ namespace KorupMenuPOS.Data
 
         public void RemoveThisFromOrder(Product removedProduct)
         {
-            if(products.Any(x=> x.ProductId == removedProduct.ProductId))
+            if(products.Any(x=> x.Id == removedProduct.Id))
             {
-                var index = products.IndexOf(products.Where(x => x.ProductName == removedProduct.ProductName).FirstOrDefault());
+                var index = products.IndexOf(products.Where(x => x.Name == removedProduct.Name).FirstOrDefault());
 
                 products.RemoveAt(index);
 
                 List<Product> removedProductList = new List<Product>();
-                removedProductList = products.Where(x => x.ProductId == removedProduct.ProductId).ToList();
+                removedProductList = products.Where(x => x.Id == removedProduct.Id).ToList();
 
-                var item = items.Where(x => x.ProductId == removedProduct.ProductId).FirstOrDefault();
+                var item = items.Where(x => x.ProductId == removedProduct.Id).FirstOrDefault();
 
                 if (!removedProductList.Any())
                 {
@@ -197,6 +198,22 @@ namespace KorupMenuPOS.Data
             items.Clear();
             message = "";
             
+        }
+
+        public void ChallengeToOrder()
+        {
+            Product challenge = new Product()
+            {
+
+                Name = "Udfordringen!!!",
+                Id = 999,
+                Description = "Er du mand eller kvinde nok til at spise denne enorme bøf, og kan du gøre det hurtigere end dine venner?",
+                Price = 129.95,
+                CategoryId = 999
+
+            };
+
+            AddToOrder(challenge);
         }
     }
 }

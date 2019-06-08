@@ -6,6 +6,8 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace KorupMenuPOS.ViewModel
 {
@@ -18,7 +20,11 @@ namespace KorupMenuPOS.ViewModel
         public LeaderBoardViewModel()
         {
             ToList();
+
+            ChallengeToOrderCommand = new Command(AddChallengeToOrder);
         }
+
+        public ICommand ChallengeToOrderCommand { get; private set; }
 
         async void ToList()
         {
@@ -34,7 +40,7 @@ namespace KorupMenuPOS.ViewModel
                 {
                     ChallengerName = cp.PersonName,
                     HighScoreTime = cp.ChallengeTime.ToLongTimeString(),
-                    ChallengeDate = cp.ChallengeDate
+                    ChallengeDate = cp.ChallengeDate.ToShortDateString()
 
                 });
                
@@ -44,6 +50,11 @@ namespace KorupMenuPOS.ViewModel
 
             OnPropertyChanged(nameof(HighScores));
             
+        }
+
+        private void AddChallengeToOrder()
+        {
+            App.ItemManager.AddChallengeToThisOrder();
         }
 
         

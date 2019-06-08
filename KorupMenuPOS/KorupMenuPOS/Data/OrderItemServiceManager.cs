@@ -65,5 +65,10 @@ namespace KorupMenuPOS.Data
             itemService.EmptyOrder();
         }
 
+        public void AddChallengeToThisOrder()
+        {
+            itemService.ChallengeToOrder();
+        }
+
     }
 }

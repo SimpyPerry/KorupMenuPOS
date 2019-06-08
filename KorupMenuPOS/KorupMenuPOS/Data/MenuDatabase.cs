@@ -23,9 +23,10 @@ namespace KorupMenuPOS.Data
 
         public async Task<int> RefreshDatabaseDataAsync()
         {
-
-            List<Categories> cats = new List<Categories>();
-            cats = await App.Restmanager.GetMenuData();
+           
+                List<Categories> cats = new List<Categories>();
+                cats = await App.Restmanager.GetMenuData();
+           
 
             int count = await _database.Table<Categories>().CountAsync();
 
@@ -44,7 +45,7 @@ namespace KorupMenuPOS.Data
                 return await _database.InsertAllAsync(cats);
 
             }
-            else if(cats.Count >= count && !cats.Contains(challenge))
+            else if (cats.Count >= count && !cats.Contains(challenge))
             {
                 await _database.DeleteAllAsync<Categories>();
                 cats.Add(challenge);
@@ -56,22 +57,6 @@ namespace KorupMenuPOS.Data
                 return await _database.UpdateAllAsync(cats);
             }
 
-           
-
-                //foreach (Categories cate in cats)
-                //{
-                //    if (cate.Id != 0)
-                //    {
-                //        return await _database.UpdateAsync(cate);
-                //    }
-                //    else
-                //    {
-                //        return await _database.InsertAsync(cate);
-                //    }
-                //}
-            
-
-            
 
         }
 

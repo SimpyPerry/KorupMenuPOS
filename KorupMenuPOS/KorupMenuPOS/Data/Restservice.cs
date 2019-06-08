@@ -51,30 +51,30 @@ namespace KorupMenuPOS.Data
 
         public async Task<List<Product>> GetProductsAsync()
         {
-            MenuItems = new List<Categories>();
+            Products = new List<Product>();
 
-            var response = await _httpClient.GetAsync(CategoriesEndPoint);
+            var response = await _httpClient.GetAsync(ProductsEndPoint);
 
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();
-                MenuItems = JsonConvert.DeserializeObject<List<Categories>>(content);
+                Products = JsonConvert.DeserializeObject<List<Product>>(content);
             }
 
-            Products = new List<Product>();
 
-            foreach(Categories cate in MenuItems)
-            {
-                List<Product> ps = new List<Product>();
 
-                ps = cate.Products;
+            //foreach(Categories cate in MenuItems)
+            //{
+            //    List<Product> ps = new List<Product>();
 
-                foreach (Product pro in ps)
-                {
-                    pro.CategoryID = cate.Id;
-                    Products.Add(pro);
-                }
-            }
+            //    ps = cate.Products;
+
+            //    foreach (Product pro in ps)
+            //    {
+            //        pro.CategoryID = cate.Id;
+            //        Products.Add(pro);
+            //    }
+            //}
 
             return Products;
             
