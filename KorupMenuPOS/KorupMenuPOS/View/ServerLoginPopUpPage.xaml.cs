@@ -43,7 +43,8 @@ namespace KorupMenuPOS.View
                 {
                     
                     PincodeEntry.Text = null;
-                    PincodeEntry.Placeholder = "Forkert kode";
+                    //ændres tilbage til forkert kode
+                    PincodeEntry.Placeholder = "Godkendt";
                     await Navigation.PushAsync(new LoggedPage());
                     await PopupNavigation.Instance.PopAsync();
                 }

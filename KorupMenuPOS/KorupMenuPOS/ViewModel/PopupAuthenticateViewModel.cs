@@ -78,14 +78,18 @@ namespace KorupMenuPOS.ViewModel
                     }
                     else
                     {
+                        var order = App.ItemManager.GetOrderItems();
+                        string comment = App.ItemManager.GetComment();
                         Pin = "";
-                        PlaceHolder = "Forkert Kode";
+                        //ændres tilbage til forkert kode
+                        PlaceHolder = "Sendt";
+                        await App.Restmanager.SendeOrderToPOS(order, comment);
                         App.ItemManager.ResetOrder();
                         App.ItemManager.GetTotalePrice();
                         OnPropertyChanged(nameof(PlaceHolder));
                         MessagingCenter.Send(this, "price");
 
-                }
+                    }
                 }
 
 

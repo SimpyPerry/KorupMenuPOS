@@ -192,7 +192,7 @@ namespace KorupMenuPOS.Data
             var json = JsonConvert.SerializeObject(basket);
             //StringContent laver det om til HttpContent for ellers kan det ikke sendes
             //Kan ikke sende et array uden index 
-            var content = new StringContent(json, Encoding.UTF8, "aplication/json");
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             
             var response = await _httpClient.PostAsync(OrdersEndPoint, content);

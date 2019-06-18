@@ -15,7 +15,7 @@ namespace KorupMenuPOS.Model
         
         public string Description { get; set; }
 
-        public int Sku { get; set; }
+        public string Sku { get; set; }
 
         [NotNull]
         public double Price { get; set; }

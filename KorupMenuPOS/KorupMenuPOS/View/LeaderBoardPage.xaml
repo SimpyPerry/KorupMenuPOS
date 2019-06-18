@@ -17,9 +17,9 @@
                             <DataTemplate>
                                 <ViewCell>
                                     <StackLayout Orientation="Horizontal">
-                                        <Label VerticalOptions="Start" FontSize="32" Text="{Binding HighScoreTime}"></Label>
-                                        <Label VerticalOptions="Center" FontSize="32" Text="{Binding ChallengerName}"></Label>
-                                        <Label VerticalOptions="End" FontSize="32" Text="{Binding ChallengeDate}"></Label>
+                                        <Label HorizontalOptions="StartAndExpand" FontSize="32" Text="{Binding HighScoreTime}"></Label>
+                                        <Label HorizontalOptions="Center" FontSize="32" Text="{Binding ChallengerName}"></Label>
+                                        <Label HorizontalOptions="EndAndExpand" FontSize="32" Text="{Binding ChallengeDate}"></Label>
                                     </StackLayout>
                                 </ViewCell>
                             </DataTemplate>
@@ -27,7 +27,7 @@
                     </ListView>
                     <StackLayout HeightRequest="500" VerticalOptions="Center">
                         <Label FontSize="24"  VerticalOptions="Center" Text="Velkommen til highscore listen for udfordringen!!"></Label>
-                        <Label FontSize="24" VerticalOptions="Center" Text="Udfordringen er en kæmpe bøf på helt halvt kilo"></Label>
+                        <Label FontSize="24" VerticalOptions="Center" Text="Udfordringen er en kæmpe bøf på et helt halvt kilo"></Label>
                         <Label FontSize="24" VerticalOptions="Center" Text="Den er en udfordring i sig selv at spise, men kan du også gøre det hurtigere end alle andre?"></Label>
                     </StackLayout>
                     <Button Text="Bestil Udfordringen!" Command="{Binding ChallengeToOrderCommand}"></Button>
